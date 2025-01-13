@@ -183,16 +183,16 @@
         <div class="star star-3"></div> -->
 
         <div class="header">
-            <h1 class="title">¿Cuáles objetos son tecnológicos y cuáles no son tecnológicos?</h1>
-            <p class="subtitle">Arrastra cada concepto al grupo al que pertenece</p>
+            <h1 class="title">Which of these are technological objects and which are non-technological objects?</h1>
+            <p class="subtitle">Drag each object to the correct group.</p>
         </div>
 
         <div class="drop-zones">
             <div class="drop-zone" id="technological">
-                <h2 class="drop-zone-title">Objetos Tecnológicos</h2>
+                <h2 class="drop-zone-title">Technological objects</h2>
             </div>
             <div class="drop-zone" id="non-technological">
-                <h2 class="drop-zone-title">Objetos NO tecnológicos</h2>
+                <h2 class="drop-zone-title">Non-technological objects</h2>
             </div>
         </div>
 
@@ -223,7 +223,7 @@
             </div>
         </div>
 
-        <button class="button-verificar">Verificar</button>
+        <button class="button-verificar">Check</button>
     </div>
 </body>
 
@@ -278,6 +278,10 @@
             }
         ],
         verifyButton: document.querySelector(".button-verificar"),
+        messages: {
+            "onSuccess": "All items are correctly placed.",
+            "onFailure": "Some items are incorrectly placed."
+        }
     });
 </script>
 

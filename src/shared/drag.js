@@ -156,9 +156,9 @@ class DragDivider {
         });
 
         if (allCorrect) {
-            console.log("All items are correctly placed.");
+            console.log("Todos los elementos fueros colocados correctamente.");
         } else {
-            console.log("Some items are incorrectly placed.");
+            console.log("Algunos elementos no están en el lugar correspondiente.");
         }
     }
 

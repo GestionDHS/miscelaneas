@@ -18,9 +18,6 @@ class DragDivider {
      * @property {CategoryConfig[]} categories - The categories where items can be dropped.
      * @property {HTMLElement} verifyButton - Button element to trigger validation.
      * @property {function} [onChange] - Callback executed when the state changes.
-     * @property {Object} messages - Custom messages for validation.
-     * @property {string} messages.onFail - Message to display on validation failure.
-     * @property {string} messages.onSuccess - Message to display on validation success.
      */
 
     /**
@@ -35,7 +32,6 @@ class DragDivider {
         this.base = config.base;
         this.categories = config.categories;
         this.onChange = config.onChange;
-        this.messages = config.messages || { onFail: "Some items are incorrectly placed.", onSuccess: "All items are correctly placed." };
 
         config.verifyButton.addEventListener("click", () => this.validateItems());
 
@@ -160,9 +156,9 @@ class DragDivider {
         });
 
         if (allCorrect) {
-            console.log(this.messages.onSuccess);
+            console.log("Todos los elementos fueros colocados correctamente.");
         } else {
-            console.log(this.messages.onFail);
+            console.log("Algunos elementos no están en el lugar correspondiente.");
         }
     }
 
@@ -211,9 +207,6 @@ class DragJoiner {
      * @property {ConnectorConfig} connector - Configuration for the connectors.
      * @property {HTMLElement} verifyButton - Button element to trigger validation.
      * @property {function} [onChange] - Callback executed when the state changes.
-     * @property {Object} messages - Custom messages for validation.
-     * @property {string} messages.onFail - Message to display on validation failure.
-     * @property {string} messages.onSuccess - Message to display on validation success.
      */
 
     /**
@@ -228,7 +221,6 @@ class DragJoiner {
         this.connectorRadius = config.connector.radius || 5;
         this.onChange = config.onChange;
         this.connectorsContainer = config.connector.container;
-        this.messages = config.messages || { onFail: "Some connections are incorrect.", onSuccess: "All connections are correct." };
 
         // Clear the container for connectors
         this.connectorsContainer.innerHTML = '';
@@ -347,7 +339,7 @@ class DragJoiner {
 
         // Update connector's width and rotation angle
         this.connector.style.width = `${Math.abs(width)}px`;
-        this.connector.style.height = "2px"; // Keep height constant
+        this.connector.style.height = "4px"; // Keep height constant
 
         // Apply rotation and transformation origin
         this.connector.style.transform = `rotate(${angle}deg)`;
@@ -453,7 +445,7 @@ class DragJoiner {
     validateConnections() {
         // Check if all expected connections are present
         if (Object.keys(this.relations).length === 0) {
-            console.log(this.messages.onFail);
+            console.log("Some connections are incorrect.");
             return;
         }
 
@@ -487,10 +479,10 @@ class DragJoiner {
         }
 
         if (!allCorrect) {
-            console.log(this.messages.onFail);
+            console.log("Some connections are incorrect.");
             return;
         }
 
-        console.log(this.messages.onSuccess);
+        console.log("All connections are correct.");
     }
 }

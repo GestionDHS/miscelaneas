@@ -46,18 +46,18 @@
             font-size: 16px;
         }
 
-        .button-verificar {
-            background: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: none;
-            width: 200px;
-            height: 40px;
-            text-decoration: none;
+        .validate-button {
             display: block;
+            margin: 40px auto 0;
+            background-color: #f1ebb3  ;
+            /* color: white; */
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
             text-align: center;
-            margin: 20px auto 0;
+            padding: 20px;
         }
 
         .drop-zones {
@@ -72,7 +72,7 @@
             max-width: none;
             height: auto;
             /* Ajustar la altura automáticamente */
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.457);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
@@ -85,17 +85,13 @@
         }
 
         .drop-zone-title {
-            color: white;
-            font-size: 20px;
+            font-size: 24px;
             text-align: center;
             width: 100%;
             /* Asegurar que el título ocupe todo el ancho */
         }
 
         .objects-container {
-            /* display: flex;
-            flex-wrap: wrap;
-            flex-direction: row;*/
             justify-content: space-evenly;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -104,10 +100,6 @@
             margin: 20px 0;
             padding: 10px;
             width: 100%;
-        }
-
-        .objects-container > :nth-child(n+7){
-            grid-column: span 1;
         }
 
         .object {
@@ -129,31 +121,9 @@
 
         .object img {
             object-fit: contain;
-            transform: scale(1.5);
+            width: 100%;
         }
 
-        .star {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: white;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
-
-        .star-1 {
-            top: 10px;
-            right: 100px;
-        }
-
-        .star-2 {
-            bottom: 50px;
-            left: 30px;
-        }
-
-        .star-3 {
-            top: 50%;
-            right: 50px;
-        }
 
         @media (min-width: 768px) {
             .drop-zones {
@@ -182,10 +152,10 @@
         <div class="star star-2"></div>
         <div class="star star-3"></div> -->
 
-        <div class="header">
+        <!-- <div class="header">
             <h1 class="title">¿Cuáles objetos son tecnológicos y cuáles no son tecnológicos?</h1>
             <p class="subtitle">Arrastra cada concepto al grupo al que pertenece</p>
-        </div>
+        </div> -->
 
         <div class="drop-zones">
             <div class="drop-zone" id="technological">
@@ -198,32 +168,32 @@
 
         <div class="objects-container">
             <div class="object" id="object-1">
-                <img src="images/patata.png" alt="Patata" width="80" height="80">
+                <img src="images/patata.png" alt="Patata" width="80" height="80" title="Rock">
             </div>
             <div class="object" id="object-2">
-                <img src="images/calculadora.png" alt="Calculadora" width="80" height="80">
+                <img src="images/calculadora.png" alt="Calculadora" width="80" height="80" title="Calculadora">
             </div>
             <div class="object" id="object-3">
-                <img src="images/camara.png" alt="Cámara" width="80" height="80">
+                <img src="images/camara.png" alt="Cámara" width="80" height="80" title="Cámara">
             </div>
             <div class="object" id="object-4">
-                <img src="images/reloj_inteligente.png" alt="Reloj Inteligente" width="80" height="80">
+                <img src="images/reloj_inteligente.png" alt="Reloj Inteligente" width="80" height="80" title="Reloj Inteligente">
             </div>
             <div class="object" id="object-5">
-                <img src="images/tomates.png" alt="Tomates" width="80" height="80">
+                <img src="images/tomates.png" alt="Tomates" width="80" height="80" title="Tomates">
             </div>
             <div class="object" id="object-6">
-                <img src="images/auriculares.png" alt="Auriculares" width="80" height="80">
+                <img src="images/auriculares.png" alt="Auriculares" width="80" height="80" title="Auriculares">
             </div>
             <div class="object" id="object-7">
-                <img src="images/portatil.png" alt="Portátil" width="80" height="80">
+                <img src="images/portatil.png" alt="Portátil" width="80" height="80" title="Portátil">
             </div>
             <div class="object" id="object-8">
-                <img src="images/vaca.png" alt="Pluma" width="80" height="80">
+                <img src="images/vaca.png" alt="Pluma" width="80" height="80" title="Vaca">
             </div>
         </div>
 
-        <button class="button-verificar">Verificar</button>
+        <button class="validate-button">Guardar y comprobar</button>
     </div>
 </body>
 
@@ -277,7 +247,11 @@
                 element: document.getElementById("non-technological"),
             }
         ],
-        verifyButton: document.querySelector(".button-verificar"),
+        verifyButton: document.querySelector(".validate-button"),
+        messages: {
+            onSuccess: "Todos los elementos están bien ubicados.",
+            onFail: "Hay elementos sin ubicar o en el lugar incorrecto."
+        }
     });
 </script>
 

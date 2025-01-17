@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos Tecnológicos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .game-container {
+            width: 90%;
+            max-width: 900px;
+            height: auto;
+            background: linear-gradient(135deg, #e6e6fa, #b19cd9);
+            border: 15px solid white;
+            border-radius: 10px;
+            position: relative;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #4a4a8a;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .button-verificar {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            width: 200px;
+            height: 40px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin: 20px auto 0;
+        }
+
+        .drop-zones {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .drop-zone {
+            width: 45%;
+            max-width: none;
+            height: auto;
+            /* Ajustar la altura automáticamente */
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            /* Usar flexbox para alinear elementos horizontalmente */
+            flex-wrap: wrap;
+            /* Permitir que los elementos se envuelvan */
+            gap: 10px;
+            /* Espacio entre los elementos */
+        }
+
+        .drop-zone-title {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            /* Asegurar que el título ocupe todo el ancho */
+        }
+
+        .objects-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            /* Aumentar el espacio entre las opciones */
+            margin: 20px 0;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .object {
+            width: 80px;
+            /* Aumentar el ancho de las opciones */
+            height: 80px;
+            /* Aumentar la altura de las opciones */
+            background: rgba(255, 255, 255, .2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 5px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            font-size: 12px;
+            /* Ajustar el tamaño de la fuente */
+            padding: 5px;
+            /* Agregar padding para evitar que el texto se corte */
+        }
+
+        .object img {
+            padding: 10px;
+            object-fit: contain;
+        }
+
+        .star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .star-1 {
+            top: 10px;
+            right: 100px;
+        }
+
+        .star-2 {
+            bottom: 50px;
+            left: 30px;
+        }
+
+        .star-3 {
+            top: 50%;
+            right: 50px;
+        }
+
+        @media (min-width: 768px) {
+            .drop-zones {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .drop-zone {
+                margin-bottom: 0;
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .objects-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="star star-1"></div>
+        <div class="star star-2"></div>
+        <div class="star star-3"></div>
+
+        <div class="header">
+            <h1 class="title">¿Cuáles objetos son tecnológicos y cuáles no son tecnológicos?</h1>
+            <p class="subtitle">Arrastra cada concepto al grupo al que pertenece</p>
+        </div>
+
+        <div class="drop-zones">
+            <div class="drop-zone" id="technological">
+                <h2 class="drop-zone-title">Objetos Tecnológicos</h2>
+            </div>
+            <div class="drop-zone" id="non-technological">
+                <h2 class="drop-zone-title">Objetos NO tecnológicos</h2>
+            </div>
+        </div>
+
+        <div class="objects-container">
+            <div class="object" id="object-1">
+                <img src="/miscelaneas/assets/patata-0510755e.png" alt="Patata" width="80" height="80">
+            </div>
+            <div class="object" id="object-2">
+                <img src="/miscelaneas/assets/calculadora-ba14b929.png" alt="Calculadora" width="80" height="80">
+            </div>
+            <div class="object" id="object-3">
+                <img src="/miscelaneas/assets/camara-6ae5c4ca.png" alt="Cámara" width="80" height="80">
+            </div>
+            <div class="object" id="object-4">
+                <img src="/miscelaneas/assets/reloj_inteligente-f86b813e.png" alt="Reloj Inteligente" width="80" height="80">
+            </div>
+            <div class="object" id="object-5">
+                <img src="/miscelaneas/assets/tomates-2d52cb3b.png" alt="Tomates" width="80" height="80">
+            </div>
+            <div class="object" id="object-6">
+                <img src="/miscelaneas/assets/auriculares-a38c5f45.png" alt="Auriculares" width="80" height="80">
+            </div>
+            <div class="object" id="object-7">
+                <img src="/miscelaneas/assets/portatil-b97296c0.png" alt="Portátil" width="80" height="80">
+            </div>
+            <div class="object" id="object-8">
+                <img src="/miscelaneas/assets/pluma-966a4cb5.png" alt="Pluma" width="80" height="80">
+            </div>
+        </div>
+
+        <button class="button-verificar">Verificar</button>
+    </div>
+</body>
+
+<script src="../shared/drag.js"></script>
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".objects-container"),
+            items: [
+                {
+                    element: document.getElementById("object-1"),
+                    expectedCategory: "no-tecnologico",
+                },
+                {
+                    element: document.getElementById("object-2"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-3"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-4"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-5"),
+                    expectedCategory: "no-tecnologico",
+                },
+                {
+                    element: document.getElementById("object-6"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-7"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-8"),
+                    expectedCategory: "no-tecnologico",
+                },
+            ],
+        },
+        categories: [
+            {
+                name: "tecnologico",
+                element: document.getElementById("technological"),
+            },
+            {
+                name: "no-tecnologico",
+                element: document.getElementById("non-technological"),
+            }
+        ],
+        verifyButton: document.querySelector(".button-verificar"),
+    });
+</script>
+
+</html>

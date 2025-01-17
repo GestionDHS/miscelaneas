@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avances Tecnológicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/miscelaneas/assets/background-34f6d2d5.png');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            max-width: 1200px;
+            flex-direction: row;
+        }
+
+        .left,
+        .right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 0 60px;
+        }
+
+        .left img,
+        .right img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 8px;
+            cursor: pointer;
+            user-drag: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .left .text,
+        .right .text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .right {
+            align-items: center;
+        }
+
+        .circle {
+            margin-left: 10px;
+        }
+
+        .circle+.circle {
+            margin-left: 20px;
+        }
+
+        .validate-button {
+            display: block;
+            width: 200px;
+            height: 60px;
+            margin: 40px auto 0;
+            background-color: #FFA500;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .title {
+            width: 20%;
+            text-align: left;
+        }
+
+        .title h2 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game">
+        <div class="options" style="display: flex; flex-direction: row; gap: 40px;">
+            <div class="left">
+                <div style="display: flex; align-items: center;">
+                    <img id="reloj-antiguo" src="/miscelaneas/assets/clock-5fab664c.png" alt="Reloj Antiguo">
+                    <div class="circle"></div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <img id="carro-madera" src="/miscelaneas/assets/cart-e3f1091c.png" alt="Carro de madera">
+                    <div class="circle"></div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <img id="mano" src="/miscelaneas/assets/hand-6c00b66c.png" alt="Mano">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="right">
+                <div style="display: flex; align-items: center;">
+                    <img id="auto-moderno" src="/miscelaneas/assets/car-d6dd07a6.png" alt="Auto moderno">
+                    <div class="circle"></div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <img id="smartphone" src="/miscelaneas/assets/smartphone-1fd9f4d7.png" alt="Smartphone">
+                    <div class="circle"></div>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <img id="timbre" src="/miscelaneas/assets/doorbell-01fc5b2d.png" alt="Timbre">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div id="connectorsContainer"></div>
+        </div>
+
+        <div class="title">
+            <h1>La tecnología Avanza...</h1>
+            <h2>Uní los avances tecnológicos según corresponda.</h2>
+        </div>
+    </div>
+
+    <button class="validate-button">Validar</button>
+</body>
+<script src="../shared/drag.js"></script>
+<script>
+    // !TODO: Add lang based messages on constructor.
+    new DragJoiner({
+        categories: [
+            {
+                name: "antiguo",
+                element: document.querySelector(".left"),
+                items: [
+                    {
+                        name: "Reloj Antiguo",
+                        element: document.getElementById("reloj-antiguo"),
+                    },
+                    {
+                        name: "Carro de madera",
+                        element: document.getElementById("carro-madera"),
+                    },
+                    {
+                        name: "Mano",
+                        element: document.getElementById("mano"),
+                    },
+                ],
+            },
+            {
+                name: "moderno",
+                element: document.querySelector(".right"),
+                items: [
+                    {
+                        name: "Auto moderno",
+                        element: document.getElementById("auto-moderno"),
+                    },
+                    {
+                        name: "Smartphone",
+                        element: document.getElementById("smartphone"),
+                    },
+                    {
+                        name: "Timbre",
+                        element: document.getElementById("timbre"),
+                    },
+                ],
+            },
+        ],
+        expectations: [
+            ["Reloj Antiguo", "Smartphone"],
+            ["Carro de madera", "Auto moderno"],
+            ["Mano", "Timbre"],
+        ],
+        connector: {
+            container: document.getElementById("connectorsContainer"),
+            color: "#0000FF",
+            radius: 5,
+        },
+        verifyButton: document.querySelector(".validate-button"),
+    });
+</script>
+
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contiene Computadoras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaf4ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            border: 2px dashed #000;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1000px;
+            background-color: #fff;
+            border-radius: 10px;
+            border: 2px dashed #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            width: 60%;
+            text-align: left;
+            margin: 0 0 20px 0;
+            color: rgb(88, 83, 83);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .base {
+            width: 30%;
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 2px dashed #000;
+        }
+
+        .base-options,
+        .objects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            justify-content: center;
+            padding: 20px;
+            /* Aumentar el espacio entre las imágenes */
+        }
+
+        .categories {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 65%;
+        }
+
+        .category {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff8e1;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 2px dashed #000;
+        }
+
+        .category:last-child {
+            margin-right: 0;
+        }
+
+        .image-container {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .image-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10%;
+        }
+
+        .category .header {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 2px dashed #000;
+        }
+
+        .category .header span {
+            display: inline-block;
+            background-color: #ffcc00;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .object {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: 2px dashed #000;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .category#contiene-computadoras {
+            background-image: url('/miscelaneas/assets/bg1-544e1c87.png');
+        }
+
+        .category#no-contiene-computadoras {
+            background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <h1>
+            ¿Cuáles de los siguientes objetos son o contienen computadoras en su interior?
+        </h1>
+        <div class="content">
+            <div class="base">
+                <h4>Arrastra los objetos hacia el lugar correspondiente</h4>
+
+                <div class="base-options">
+                    <div class="image-container" id="telefono">
+                        <img src="/miscelaneas/assets/telefono-40e70170.png" alt="telefono">
+                    </div>
+                    <div class="image-container" id="avion">
+                        <img src="/miscelaneas/assets/avion-391c110d.png" alt="avion">
+                    </div>
+                    <div class="image-container" id="ventilador">
+                        <img src="/miscelaneas/assets/ventilador-745ca968.png" alt="ventilador">
+                    </div>
+                    <div class="image-container" id="lampara">
+                        <img src="/miscelaneas/assets/lampara-4c3ac40e.png" alt="lampara">
+                    </div>
+                    <div class="image-container" id="atornilladora">
+                        <img src="/miscelaneas/assets/atornilladora-12244711.png" alt="atornilladora">
+                    </div>
+                    <div class="image-container" id="microondas">
+                        <img src="/miscelaneas/assets/microondas-ee220335.png" alt="microondas">
+                    </div>
+                    <div class="image-container" id="dron">
+                        <img src="/miscelaneas/assets/dron-07f17d49.png" alt="dron">
+                    </div>
+                    <div class="image-container" id="consola">
+                        <img src="/miscelaneas/assets/consola-e6e1bbe2.png" alt="consola">
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories">
+                <div class="category" id="contiene-computadoras">
+                    <div class="header">Contiene Computadoras</div>
+                    <div class="objects" id="contiene-computadoras"></div>
+                </div>
+
+                <div class="category" id="no-contiene-computadoras">
+                    <div class="header">No Contiene Computadoras</div>
+                    <div class="objects" id="no-contiene-computadoras"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="button">Verificar</button>
+        </div>
+    </div>
+</body>
+
+<script src="../shared/drag.js"></script>
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".base-options"),
+            items: [
+                {
+                    element: document.getElementById("telefono"),
+                    expectedCategory: "contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("avion"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("ventilador"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("lampara"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("atornilladora"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("microondas"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("dron"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("consola"),
+                    expectedCategory: "contiene-computadoras",
+                },
+            ],
+        },
+        categories: [
+            {
+                name: "contiene-computadoras",
+                element: document.getElementById("contiene-computadoras"),
+            },
+            {
+                name: "no-contiene-computadoras",
+                element: document.getElementById("no-contiene-computadoras"),
+            }
+        ],
+        verifyButton: document.querySelector(".button"),
+    });
+</script>
+
+</html>

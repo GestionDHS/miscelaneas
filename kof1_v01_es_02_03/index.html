@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            flex-direction: column;
+            gap: 60px;
+            font-family: Arial, sans-serif;
+            background-image: url('/miscelaneas/assets/background-34f6d2d5.png');
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .element {
+            width: 240px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .red {
+            background-color: #ff6666;
+        }
+
+        .blue {
+            background-color: #205284;
+        }
+
+        .yellow {
+            background-color: #ffff66;
+        }
+
+        .green {
+            background-color: #66ff66;
+        }
+
+        .arrow-right,
+        .arrow-up-down {
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vertical-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            border: 2px dashed #000;
+            padding: 40px;
+            width: 80%;
+        }
+
+        .option {
+            padding: 10px 20px;
+            background-color: #66b2ff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            width: 200px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+
+        }
+
+        #executeButton {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #executeButton:hover {
+            background-color: #45a049;
+        }
+
+        .title {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 14px;
+            gap: 20px;
+        }
+
+        .highlighted {
+            background-color: #66b2ff;
+            width: 60%;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1>El cuadro representa el camino que realizan los datos en una computadora</h1>
+        <h1 class="highlighted">Ordena las palabras donde corresponden</h1>
+    </div>
+
+    <div class="flow">
+        <div class="element red"></div>
+        <div class="arrow-right">→</div>
+        <div class="vertical-container">
+            <div class="element blue"></div>
+            <div class="arrow-up-down">↕</div>
+            <div class="element yellow"></div>
+        </div>
+        <div class="arrow-right">→</div>
+        <div class="element green"></div>
+    </div>
+
+    <div class="options">
+        <div class="option" id="option-input">Input</div>
+        <div class="option" id="option-storage">Almacenamiento</div>
+        <div class="option" id="option-output">Output</div>
+        <div class="option" id="option-processing">Procesamiento</div>
+    </div>
+
+    <button id="executeButton">Verificar</button>
+</body>
+
+<script src="../shared/drag.js"></script>
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".options"),
+            items: [
+                {
+                    element: document.getElementById("option-input"),
+                    expectedCategory: "Input",
+                },
+                {
+                    element: document.getElementById("option-storage"),
+                    expectedCategory: "Almacenamiento",
+                },
+                {
+                    element: document.getElementById("option-output"),
+                    expectedCategory: "Output",
+                },
+                {
+                    element: document.getElementById("option-processing"),
+                    expectedCategory: "Procesamiento",
+                }
+            ],
+        },
+        categories: [
+            {
+                name: "Input",
+                element: document.querySelector(".red"),
+            },
+            {
+                name: "Almacenamiento",
+                element: document.querySelector(".yellow"),
+            },
+            {
+                name: "Output",
+                element: document.querySelector(".green"),
+            },
+            {
+                name: "Procesamiento",
+                element: document.querySelector(".blue"),
+            }
+        ],
+        verifyButton: document.getElementById("executeButton"),
+    });
+</script>
+
+</html>

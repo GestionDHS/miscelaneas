@@ -1,3 +1,5 @@
+import { PGEvent } from "./pg-event";
+
 /**
  * Class to handle drag-and-drop functionality for categorizing items.
  */
@@ -159,11 +161,14 @@ class DragDivider {
             }
         });
 
-        if (allCorrect) {
-            console.log(this.messages.onSuccess);
-        } else {
-            console.log(this.messages.onFail);
-        }
+        const pgEvent = new PGEvent();
+        console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
+        pgEvent.postToPg({
+            event: allCorrect ? "SUCCESS" : "FAILURE",
+            message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
+            reasons: [],
+            state: JSON.stringify({})
+        });
     }
 
     /**
@@ -486,11 +491,13 @@ class DragJoiner {
             allCorrect = false;
         }
 
-        if (!allCorrect) {
-            console.log(this.messages.onFail);
-            return;
-        }
-
-        console.log(this.messages.onSuccess);
+        const pgEvent = new PGEvent();
+        console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
+        pgEvent.postToPg({
+            event: allCorrect ? "SUCCESS" : "FAILURE",
+            message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
+            reasons: [],
+            state: JSON.stringify({})
+        });
     }
 }

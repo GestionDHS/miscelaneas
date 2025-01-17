@@ -39,7 +39,13 @@ export default defineConfig({
         kof1v01es0301: resolve(root, 'kof1_v01_es_03_01/index.html'),
         kof1v01es0302: resolve(root, 'kof1_v01_es_03_02/index.html'),
         // ingles
-        kof1v01es0101en: resolve(root, 'kof1_v01_es_01_01_en/index.html'),
+        kof1v01en0101: resolve(root, 'kof1_v01_en_01_01/index.html'),
+        kof1v01en0103: resolve(root, 'kof1_v01_en_01_03/index.html'),
+        kof1v01en0201: resolve(root, 'kof1_v01_en_02_01/index.html'),
+        kof1v01en0202: resolve(root, 'kof1_v01_en_02_02/index.html'),
+        kof1v01en0203: resolve(root, 'kof1_v01_en_02_03/index.html'),
+        kof1v01en0301: resolve(root, 'kof1_v01_en_03_01/index.html'),
+        kof1v01en0302: resolve(root, 'kof1_v01_en_03_02/index.html'),
 
         // casita inglés
         casitadigitalEN: resolve(root, 'casitadigital_en/index.html'),

@@ -1,1 +1,0 @@
-import"./pg-event-8842ce7a.js";import{C as e}from"./casita-digital-d9869279.js";window.onload=()=>{e({initialLetter:"A",expectedLetter:"B",house:document.getElementById("casa"),letter:document.getElementById("mensaje"),isFreeMode:!0,successMessage:"Congratulations! You found the right letter!",failureMessage:"Oh no! That's not the right letter. Try again."})};

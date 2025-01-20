@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispositivos input/output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaf4ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            border: 2px dashed #000;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1000px;
+            background-color: #fff;
+            border-radius: 10px;
+            border: 2px dashed #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            width: 60%;
+            text-align: left;
+            margin: 0 0 20px 0;
+            color: rgb(88, 83, 83);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .base {
+            width: 30%;
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 2px dashed #000;
+        }
+
+        .base-options,
+        .objects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            justify-content: center;
+            padding: 20px;
+            /* Aumentar el espacio entre las imágenes */
+        }
+
+        .categories {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 65%;
+        }
+
+        .category {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff8e1;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 2px dashed #000;
+        }
+
+        .category:last-child {
+            margin-right: 0;
+        }
+
+        .image-container {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .image-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10%;
+        }
+
+        .category .header {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 2px dashed #000;
+        }
+
+        .category .header span {
+            display: inline-block;
+            background-color: #ffcc00;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .object {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: 2px dashed #000;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .category#entrada-informacion {
+            background-image: url('/miscelaneas/assets/bg1-544e1c87.png');
+        }
+
+        .category#salida-informacion {
+            background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
+        }
+    </style>
+  <script type="module" crossorigin src="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <h1>
+            ¿Cuáles de los siguientes objetos son de entrada de información y cuáles de salida de información?
+        </h1>
+        <div class="content">
+            <div class="base">
+                <h4>Arrastra los objetos hacia el lugar correspondiente</h4>
+
+                <div class="base-options">
+                    <div class="image-container" id="microfono">
+                        <img src="/miscelaneas/assets/microfono-3cadc6c5.png" alt="microfono">
+                    </div>
+                    <div class="image-container" id="camara">
+                        <img src="/miscelaneas/assets/camara-f92ccf52.png" alt="camara">
+                    </div>
+                    <div class="image-container" id="monitor">
+                        <img src="/miscelaneas/assets/monitor-02049c04.png" alt="monitor">
+                    </div>
+                    <div class="image-container" id="parlante">
+                        <img src="/miscelaneas/assets/parlante-c2539b12.png" alt="parlante">
+                    </div>
+                    <div class="image-container" id="teclado">
+                        <img src="/miscelaneas/assets/teclado-f8e524f8.png" alt="teclado">
+                    </div>
+                    <div class="image-container" id="mouse">
+                        <img src="/miscelaneas/assets/mouse-e8b374f5.png" alt="mouse">
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories">
+                <div class="category" id="entrada-informacion">
+                    <div class="header">Entrada de Información</div>
+                    <div class="objects" id="entrada-informacion"></div>
+                </div>
+
+                <div class="category" id="salida-informacion">
+                    <div class="header">Salida de Información</div>
+                    <div class="objects" id="salida-informacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="button">Verificar</button>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".base-options"),
+            items: [
+                {
+                    element: document.getElementById("microfono"),
+                    expectedCategory: "entrada-informacion",
+                },
+                {
+                    element: document.getElementById("camara"),
+                    expectedCategory: "entrada-informacion",
+                },
+                {
+                    element: document.getElementById("monitor"),
+                    expectedCategory: "salida-informacion",
+                },
+                {
+                    element: document.getElementById("parlante"),
+                    expectedCategory: "salida-informacion",
+                },
+                {
+                    element: document.getElementById("teclado"),
+                    expectedCategory: "entrada-informacion",
+                },
+                {
+                    element: document.getElementById("mouse"),
+                    expectedCategory: "entrada-informacion",
+                },
+            ],
+        },
+        categories: [
+            {
+                name: "entrada-informacion",
+                element: document.getElementById("entrada-informacion"),
+            },
+            {
+                name: "salida-informacion",
+                element: document.getElementById("salida-informacion"),
+            }
+        ],
+        verifyButton: document.querySelector(".button"),
+    });
+</script>
+
+</html>

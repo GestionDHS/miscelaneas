@@ -31,8 +31,10 @@
         }
 
         .element {
-            width: 240px;
-            height: 80px;
+            width: 300px;
+            /* Aumentar el tamaño del rectángulo */
+            height: 100px;
+            /* Aumentar el tamaño del rectángulo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -53,6 +55,7 @@
         .green {
             background-color: #ff8d7aff;
         }
+
 
         .arrow-right,
         .arrow-up-down {
@@ -79,21 +82,29 @@
         }
 
         .option {
-            padding: 10px 20px;
-            background-color: #bbd7f368;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
             font-size: 20px;
             font-weight: bold;
-            width: 200px;
+            width: 140px;
             text-align: center;
             user-select: none;
             cursor: pointer;
 
         }
+
+        .option img {
+            width: 80%;
+            /* Reducir el tamaño de la imagen */
+            height: auto;
+            background: none;
+            /* Asegurar que las imágenes no tengan fondo */
+        }
+
         .validate-button {
             display: block;
-            margin: 40px auto 0;
+            margin: 20px auto 0;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -105,20 +116,6 @@
             line-height: 60px;
             padding: 10px;
         }
-
-        /* #executeButton {
-            padding: 20px 40px;
-            font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #executeButton:hover {
-            background-color: #45a049;
-        } */
 
         .title {
             display: flex;
@@ -136,7 +133,7 @@
             padding: 10px;
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0203-23c57e2f.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0302-fed29d8b.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
@@ -161,16 +158,24 @@
     </div>
 
     <div class="options">
-        <div class="option" id="option-input">Input</div>
-        <div class="option" id="option-storage">Almacenamiento</div>
-        <div class="option" id="option-output">Output</div>
-        <div class="option" id="option-processing">Procesamiento</div>
+        <div class="option" id="option-processing">
+            <img src="/miscelaneas/assets/cpu-4769ef8b.jpeg" alt="Procesamiento" title="CPU">
+        </div>
+        <div class="option" id="option-output">
+            <img src="/miscelaneas/assets/monitor-a886eca2.jpeg" alt="Output" title="Monitor">
+        </div>
+        <div class="option" id="option-input">
+            <img src="/miscelaneas/assets/mando-ebaf78d0.jpeg" alt="Input" title="Joystick">
+        </div>
+        <div class="option" id="option-storage">
+            <img src="/miscelaneas/assets/memoria-3b5c37e0.jpeg" alt="Almacenamiento" title="Memory">
+        </div>
     </div>
 
-    <button id="executeButton" class="validate-button">Guardar y comprobar</button>
+    <button id="executeButton" class="validate-button">Save and check</button>
 </body>
 
-
+<!-- <script src="../shared/drag.js" type="module"></script> -->
 
 
 </html>

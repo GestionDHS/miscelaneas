@@ -4,23 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dispositivos input/output</title>
+    <title>Contiene Computadoras</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #eaf4ff;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            display: flex;
             border: 2px dashed #000;
         }
 
         .main-container {
+            width: 100%;
             background-color: #fff;
             border-radius: 10px;
             border: 2px dashed #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             padding: 30px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
         }
@@ -33,6 +35,8 @@
         }
 
         .content {
+            display: grid;
+            grid-template-rows: auto auto;
             width: 100%;
         }
 
@@ -46,15 +50,17 @@
         .base-options,
         .objects {
             display: flex;
-            justify-content: space-evenly;
+            flex-wrap: wrap;
+            gap: 60px;
+            justify-content: center;
             padding: 20px;
+            /* Aumentar el espacio entre las imágenes */
         }
 
         .categories {
-            margin-top: 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            margin-top: 20px;
         }
 
         .category {
@@ -89,7 +95,7 @@
         .image-container img {
             width: 80px;
             height: 80px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 10%;
         }
 
@@ -128,8 +134,8 @@
 
         .validate-button {
             display: block;
-            margin: 20px auto 0;
-            background-color: #FFA500;
+            margin: 0px auto 0;
+            background-color: #9850c0;
             color: white;
             font-size: 24px;
             font-weight: bold;
@@ -141,15 +147,15 @@
             padding: 10px;
         }
 
-        .category#entrada-informacion {
+        .category#contiene-computadoras {
             background-image: url('/miscelaneas/assets/bg1-544e1c87.png');
         }
 
-        .category#salida-informacion {
+        .category#no-contiene-computadoras {
             background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0301-6ffaeb8d.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0201-b8243b62.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
@@ -158,54 +164,60 @@
 <body>
     <div class="main-container">
         <!-- <h1>
-            ¿Cuáles de los siguientes objetos son de entrada de información y cuáles de salida de información?
+            ¿Cuáles de los siguientes objetos son o contienen computadoras en su interior?
         </h1> -->
         <div class="content">
             <div class="base">
                 <!-- <h4>Arrastra los objetos hacia el lugar correspondiente</h4> -->
 
                 <div class="base-options">
-                    <div class="image-container" id="microfono">
-                        <img src="/miscelaneas/assets/microfono-3cadc6c5.png" alt="microfono">
+                    <div class="image-container" id="telefono">
+                        <img src="/miscelaneas/assets/telefono-40e70170.png" alt="telefono" title="Cell phone">
                     </div>
-                    <div class="image-container" id="camara">
-                        <img src="/miscelaneas/assets/camara-f92ccf52.png" alt="camara">
+                    <div class="image-container" id="avion">
+                        <img src="/miscelaneas/assets/avion-92b78564.png" alt="avion" title="Plane">
                     </div>
-                    <div class="image-container" id="monitor">
-                        <img src="/miscelaneas/assets/monitor-02049c04.png" alt="monitor">
+                    <div class="image-container" id="ventilador">
+                        <img src="/miscelaneas/assets/ventilador-a7c70c77.png" alt="ventilador" title="Ceiling fan">
                     </div>
-                    <div class="image-container" id="parlante">
-                        <img src="/miscelaneas/assets/parlante-c2539b12.png" alt="parlante">
+                    <div class="image-container" id="lampara">
+                        <img src="/miscelaneas/assets/lampara-e4c5f442.png" alt="lampara" title="Lamp">
                     </div>
-                    <div class="image-container" id="teclado">
-                        <img src="/miscelaneas/assets/teclado-f8e524f8.png" alt="teclado">
+                    <div class="image-container" id="atornilladora">
+                        <img src="/miscelaneas/assets/atornilladora-4e7be3a3.png" alt="atornilladora" title="Drill">
                     </div>
-                    <div class="image-container" id="mouse">
-                        <img src="/miscelaneas/assets/mouse-e8b374f5.png" alt="mouse">
+                    <div class="image-container" id="microondas">
+                        <img src="/miscelaneas/assets/microondas-ab7dea32.png" alt="microondas" title="Microwave">
+                    </div>
+                    <div class="image-container" id="dron">
+                        <img src="/miscelaneas/assets/dron-df350f09.png" alt="dron" title="Drone">
+                    </div>
+                    <div class="image-container" id="consola">
+                        <img src="/miscelaneas/assets/consola-46c4f576.png" alt="consola" title="Gaming console">
                     </div>
                 </div>
             </div>
 
             <div class="categories">
-                <div class="category" id="entrada-informacion">
-                    <div class="header">Entradas de información</div>
-                    <div class="objects" id="entrada-informacion"></div>
+                <div class="category" id="contiene-computadoras">
+                    <div class="header">Have computers</div>
+                    <div class="objects" id="contiene-computadoras"></div>
                 </div>
 
-                <div class="category" id="salida-informacion">
-                    <div class="header">Salidas de información</div>
-                    <div class="objects" id="salida-informacion"></div>
+                <div class="category" id="no-contiene-computadoras">
+                    <div class="header">Don't have computers</div>
+                    <div class="objects" id="no-contiene-computadoras"></div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <button class="button validate-button">Guardar y comprobar</button>
+            <button class="validate-button">Save and check</button>
         </div>
     </div>
 </body>
 
-<!-- <script src="../shared/drag.js" type="module"></script> -->
+
 
 
 </html>

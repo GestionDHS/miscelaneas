@@ -15,27 +15,26 @@
             flex-wrap: wrap;
         }
 
-        .container {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+        .container div {
+            flex: 1 1 30%;
+            padding: 10px;
             text-align: center;
         }
 
         .container img {
-            /* width: 100%;
-            height: 100%;
-            margin-top: 20px; */
-            display: none;
+            width: 80%;
+            margin-top: 20px;
         }
 
         .text-box {
             border-radius: 10px;
-            padding: 10px;
+            padding: 5px;
+            text-align: center;
             font-size: 2em;
-            /* width: 100%; */
-            /* margin:100px; */
+            width: 28%;
+            top: 50px;
+            position: absolute;
+            margin-left: 16px;
         }
 
         .text-box.pink {
@@ -65,7 +64,6 @@
             padding: 10px;
             margin: 10px;
             width: 200px;
-            height: 50px;
             text-align: center;
             font-weight: bold;
             display: flex;
@@ -73,19 +71,12 @@
             justify-content: center;
         }
 
-        .drop-zone{
-            background-image: url("/miscelaneas/assets/pc-0cccc503.png");
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
         .drop-box {
-            margin: 10px;
-            min-height: 400px;
-            display: grid;
-            grid-template-rows: auto auto auto;
-            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 300px;
         }
 
 
@@ -114,7 +105,7 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0202-109ebeef.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0202-1184a4d1.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
@@ -122,34 +113,30 @@
 
 <body>
     <div class="container">
-        <div class="text-box pink">Input</div>
-        <div class="text-box yellow">Procesamiento</div>
-        <div class="text-box green">Output</div>
-        <div class="drop-zone">
-            
-            <div class="drop-box" id="drop-box-1">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 1" id="c1">
-            </div>
+        <div>
+            <div class="text-box pink">Input</div>
+            <!-- <img src="images/pc.png" alt="PC Image 1" id="c1"> -->
+            <div class="drop-box" id="drop-box-1"></div>
         </div>
-        <div class="drop-zone">
-            <div class="drop-box" id="drop-box-2">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 2" id="c2">
-            </div>
+        <div>
+            <div class="text-box yellow">Processing</div>
+            <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
+            <div class="drop-box" id="drop-box-2"></div>
         </div>
-        <div class="drop-zone">
-            <div class="drop-box" id="drop-box-3">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 3" id="c3">
-            </div>
+        <div>
+            <div class="text-box green">Output</div>
+            <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
+            <div class="drop-box" id="drop-box-3"></div>
         </div>
     </div>
 
     <div class="options">
-        <div class="item" id="item-1">1+1</div>
+        <div class="item" id="item-1">2</div>
         <div class="item" id="item-2">462315</div>
-        <div class="item" id="item-3">Ordenar de menor a mayor</div>
-        <div class="item" id="item-4">2</div>
+        <div class="item" id="item-3">Sort in ascending order</div>
+        <div class="item" id="item-4">1+1</div>
         <div class="item" id="item-5">123456</div>
-        <div class="item" id="item-6">Sumar dos números</div>
+        <div class="item" id="item-6">Sum two numbers</div>
     </div>
 
     <button class="validate-button" id="executeButton">Guardar y comprobar</button>

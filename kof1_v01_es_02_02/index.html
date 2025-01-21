@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kof1_v01_es_02_02</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .container img {
+            /* width: 100%;
+            height: 100%;
+            margin-top: 20px; */
+            display: none;
+        }
+
+        .text-box {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 2em;
+            /* width: 100%; */
+            /* margin:100px; */
+        }
+
+        .text-box.pink {
+            background-color: #d147a3;
+            color: white;
+        }
+
+        .text-box.yellow {
+            background-color: #f5e041;
+        }
+
+        .text-box.green {
+            background-color: #47d16b;
+            color: white;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .item {
+            background-color: #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drop-zone{
+            background-image: url("/miscelaneas/assets/pc-0cccc503.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .drop-box {
+            margin: 10px;
+            min-height: 400px;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            justify-content: center;
+        }
+
+
+        .validate-button {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #9850c0;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 60px;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container div {
+                flex: 1 1 100%;
+            }
+
+            .text-box {
+                width: 60%;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0202-109ebeef.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-box pink">Input</div>
+        <div class="text-box yellow">Procesamiento</div>
+        <div class="text-box green">Output</div>
+        <div class="drop-zone">
+            
+            <div class="drop-box" id="drop-box-1">
+                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 1" id="c1">
+            </div>
+        </div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-2">
+                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 2" id="c2">
+            </div>
+        </div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-3">
+                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 3" id="c3">
+            </div>
+        </div>
+    </div>
+
+    <div class="options">
+        <div class="item" id="item-1">1+1</div>
+        <div class="item" id="item-2">462315</div>
+        <div class="item" id="item-3">Ordenar de menor a mayor</div>
+        <div class="item" id="item-4">2</div>
+        <div class="item" id="item-5">123456</div>
+        <div class="item" id="item-6">Sumar dos números</div>
+    </div>
+
+    <button class="validate-button" id="executeButton">Guardar y comprobar</button>
+</body>
+
+
+
+
+</html>

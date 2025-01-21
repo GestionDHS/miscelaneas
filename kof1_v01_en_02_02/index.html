@@ -8,33 +8,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            max-height: fit-content;
         }
+
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .container div {
-            flex: 1 1 30%;
-            padding: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 30px;
             text-align: center;
         }
 
         .container img {
-            width: 80%;
-            margin-top: 20px;
+            display: none;
         }
 
         .text-box {
             border-radius: 10px;
-            padding: 5px;
-            text-align: center;
+            padding: 10px;
             font-size: 2em;
-            width: 28%;
-            top: 50px;
-            position: absolute;
-            margin-left: 16px;
+            /* width: 100%; */
+            /* margin:100px; */
         }
 
         .text-box.pink {
@@ -52,18 +47,16 @@
         }
 
         .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
         }
 
         .item {
             background-color: #ccc;
             border-radius: 10px;
-            padding: 10px;
-            margin: 10px;
+            margin: 10px auto;
             width: 200px;
+            height: 50px;
             text-align: center;
             font-weight: bold;
             display: flex;
@@ -72,11 +65,13 @@
         }
 
         .drop-box {
-            border: 2px dashed #ccc;
+            border: 2px dashed black;
             border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            min-height: 300px;
+            margin: 10px;
+            min-height: 160px;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            justify-content: center;
         }
 
 
@@ -113,21 +108,25 @@
 
 <body>
     <div class="container">
-        <div>
-            <div class="text-box pink">Input</div>
-            <!-- <img src="images/pc.png" alt="PC Image 1" id="c1"> -->
-            <div class="drop-box" id="drop-box-1"></div>
+        <div class="drop-zone">
+            
+            <div class="drop-box" id="drop-box-1">
+                <!-- <img src="images/pc.png" alt="PC Image 1" id="c1"> -->
+            </div>
         </div>
-        <div>
-            <div class="text-box yellow">Processing</div>
-            <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
-            <div class="drop-box" id="drop-box-2"></div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-2">
+                <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
+            </div>
         </div>
-        <div>
-            <div class="text-box green">Output</div>
-            <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
-            <div class="drop-box" id="drop-box-3"></div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-3">
+                <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
+            </div>
         </div>
+        <div class="text-box pink">Input</div>
+        <div class="text-box yellow">Processing</div>
+        <div class="text-box green">Output</div>
     </div>
 
     <div class="options">
@@ -139,7 +138,7 @@
         <div class="item" id="item-6">Sum two numbers</div>
     </div>
 
-    <button class="validate-button" id="executeButton">Guardar y comprobar</button>
+    <button class="validate-button" id="executeButton">Save and check</button>
 </body>
 
 

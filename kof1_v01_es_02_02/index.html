@@ -8,25 +8,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            max-height: fit-content;
         }
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-        }
 
         .container {
             padding: 20px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            column-gap: 30px;
             text-align: center;
         }
 
         .container img {
-            /* width: 100%;
-            height: 100%;
-            margin-top: 20px; */
             display: none;
         }
 
@@ -53,17 +47,14 @@
         }
 
         .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
         }
 
         .item {
             background-color: #ccc;
             border-radius: 10px;
-            padding: 10px;
-            margin: 10px;
+            margin: 10px auto;
             width: 200px;
             height: 50px;
             text-align: center;
@@ -73,16 +64,11 @@
             justify-content: center;
         }
 
-        .drop-zone{
-            background-image: url("/miscelaneas/assets/pc-0cccc503.png");
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
         .drop-box {
+            border: 2px dashed black;
+            border-radius: 10px;
             margin: 10px;
-            min-height: 400px;
+            min-height: 160px;
             display: grid;
             grid-template-rows: auto auto auto;
             justify-content: center;
@@ -114,7 +100,7 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0202-109ebeef.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0202-23544b29.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
@@ -122,25 +108,25 @@
 
 <body>
     <div class="container">
-        <div class="text-box pink">Input</div>
-        <div class="text-box yellow">Procesamiento</div>
-        <div class="text-box green">Output</div>
         <div class="drop-zone">
             
             <div class="drop-box" id="drop-box-1">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 1" id="c1">
+                <!-- <img src="images/pc.png" alt="PC Image 1" id="c1"> -->
             </div>
         </div>
         <div class="drop-zone">
             <div class="drop-box" id="drop-box-2">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 2" id="c2">
+                <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
             </div>
         </div>
         <div class="drop-zone">
             <div class="drop-box" id="drop-box-3">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 3" id="c3">
+                <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
             </div>
         </div>
+        <div class="text-box pink">Input</div>
+        <div class="text-box yellow">Procesamiento</div>
+        <div class="text-box green">Output</div>
     </div>
 
     <div class="options">

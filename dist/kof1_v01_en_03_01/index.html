@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispositivos input/output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaf4ff;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            border: 2px dashed #000;
+        }
+
+        .main-container {
+            background-color: #fff;
+            border-radius: 10px;
+            border: 2px dashed #000;
+            padding: 30px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            width: 60%;
+            text-align: left;
+            margin: 0 0 20px 0;
+            color: rgb(88, 83, 83);
+        }
+
+        .content {
+            width: 100%;
+        }
+
+        .base {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #000;
+        }
+
+        .base-options,
+        .objects {
+            display: flex;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .categories {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .category {
+            height: 200px;
+            padding: 20px;
+            background-color: #fff8e1;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            margin-right: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 2px dashed #000;
+        }
+
+        .category:last-child {
+            margin-right: 0;
+        }
+
+        .image-container {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .image-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 10%;
+        }
+
+        .category .header {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            background-color: #ffcc00;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 2px dashed #000;
+        }
+
+        .category .header span {
+            display: inline-block;
+            background-color: #ffcc00;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .object {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .validate-button {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #FFA500;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 60px;
+            padding: 10px;
+        }
+
+        .category#entrada-informacion {
+            background-image: url('/miscelaneas/assets/bg1-544e1c87.png');
+        }
+
+        .category#salida-informacion {
+            background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
+        }
+    </style>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0301-7a73c13a.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- <h1>
+            ¿Cuáles de los siguientes objetos son de entrada de información y cuáles de salida de información?
+        </h1> -->
+        <div class="content">
+            <div class="base">
+                <!-- <h4>Arrastra los objetos hacia el lugar correspondiente</h4> -->
+
+                <div class="base-options">
+                    <div class="image-container" id="microfono">
+                        <img src="/miscelaneas/assets/microfono-3cadc6c5.png" alt="microfono">
+                    </div>
+                    <div class="image-container" id="camara">
+                        <img src="/miscelaneas/assets/camara-f92ccf52.png" alt="camara">
+                    </div>
+                    <div class="image-container" id="monitor">
+                        <img src="/miscelaneas/assets/monitor-02049c04.png" alt="monitor">
+                    </div>
+                    <div class="image-container" id="parlante">
+                        <img src="/miscelaneas/assets/parlante-c2539b12.png" alt="parlante">
+                    </div>
+                    <div class="image-container" id="teclado">
+                        <img src="/miscelaneas/assets/teclado-f8e524f8.png" alt="teclado">
+                    </div>
+                    <div class="image-container" id="mouse">
+                        <img src="/miscelaneas/assets/mouse-e8b374f5.png" alt="mouse">
+                    </div>
+                </div>
+            </div>
+
+            <div class="categories">
+                <div class="category" id="entrada-informacion">
+                    <div class="header">Input</div>
+                    <div class="objects" id="entrada-informacion"></div>
+                </div>
+
+                <div class="category" id="salida-informacion">
+                    <div class="header">Output</div>
+                    <div class="objects" id="salida-informacion"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="button validate-button">Save and check</button>
+        </div>
+    </div>
+</body>
+
+<!-- <script src="../shared/drag.js" type="module"></script> -->
+
+
+</html>

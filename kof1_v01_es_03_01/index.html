@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
             background-color: #eaf4ff;
-            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -19,14 +18,9 @@
         }
 
         .main-container {
-            width: 90%;
-            max-width: 1000px;
             background-color: #fff;
             border-radius: 10px;
             border: 2px dashed #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             padding: 30px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
         }
@@ -39,40 +33,32 @@
         }
 
         .content {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
             width: 100%;
         }
 
         .base {
-            width: 30%;
             background-color: #fff8e1;
             padding: 20px;
             border-radius: 10px;
-            margin-right: 20px;
             border: 2px dashed #000;
         }
 
         .base-options,
         .objects {
             display: flex;
-            flex-wrap: wrap;
-            gap: 60px;
-            justify-content: center;
+            justify-content: space-evenly;
             padding: 20px;
-            /* Aumentar el espacio entre las imágenes */
         }
 
         .categories {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 65%;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .category {
-            width: 45%;
+            height: 200px;
             padding: 20px;
             background-color: #fff8e1;
             border-radius: 10px;
@@ -103,7 +89,7 @@
         .image-container img {
             width: 80px;
             height: 80px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 10%;
         }
 
@@ -140,14 +126,19 @@
             margin-top: 30px;
         }
 
-        .button {
-            padding: 10px 20px;
-            background-color: #007bff;
+        .validate-button {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #FFA500;
             color: white;
-            border: 2px dashed #000;
-            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            text-align: center;
+            line-height: 60px;
+            padding: 10px;
         }
 
         .category#entrada-informacion {
@@ -158,17 +149,20 @@
             background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0301-6ffaeb8d.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
 </head>
 
 <body>
     <div class="main-container">
-        <h1>
+        <!-- <h1>
             ¿Cuáles de los siguientes objetos son de entrada de información y cuáles de salida de información?
-        </h1>
+        </h1> -->
         <div class="content">
             <div class="base">
-                <h4>Arrastra los objetos hacia el lugar correspondiente</h4>
+                <!-- <h4>Arrastra los objetos hacia el lugar correspondiente</h4> -->
 
                 <div class="base-options">
                     <div class="image-container" id="microfono">
@@ -194,67 +188,24 @@
 
             <div class="categories">
                 <div class="category" id="entrada-informacion">
-                    <div class="header">Entrada de Información</div>
+                    <div class="header">Entradas de información</div>
                     <div class="objects" id="entrada-informacion"></div>
                 </div>
 
                 <div class="category" id="salida-informacion">
-                    <div class="header">Salida de Información</div>
+                    <div class="header">Salidas de información</div>
                     <div class="objects" id="salida-informacion"></div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <button class="button">Verificar</button>
+            <button class="button validate-button">Guardar y comprobar</button>
         </div>
     </div>
 </body>
 
+<!-- <script src="../shared/drag.js" type="module"></script> -->
 
-<script>
-    new DragDivider({
-        base: {
-            element: document.querySelector(".base-options"),
-            items: [
-                {
-                    element: document.getElementById("microfono"),
-                    expectedCategory: "entrada-informacion",
-                },
-                {
-                    element: document.getElementById("camara"),
-                    expectedCategory: "entrada-informacion",
-                },
-                {
-                    element: document.getElementById("monitor"),
-                    expectedCategory: "salida-informacion",
-                },
-                {
-                    element: document.getElementById("parlante"),
-                    expectedCategory: "salida-informacion",
-                },
-                {
-                    element: document.getElementById("teclado"),
-                    expectedCategory: "entrada-informacion",
-                },
-                {
-                    element: document.getElementById("mouse"),
-                    expectedCategory: "entrada-informacion",
-                },
-            ],
-        },
-        categories: [
-            {
-                name: "entrada-informacion",
-                element: document.getElementById("entrada-informacion"),
-            },
-            {
-                name: "salida-informacion",
-                element: document.getElementById("salida-informacion"),
-            }
-        ],
-        verifyButton: document.querySelector(".button"),
-    });
-</script>
 
 </html>

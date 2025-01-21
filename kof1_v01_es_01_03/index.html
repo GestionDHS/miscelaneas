@@ -23,7 +23,7 @@
 
         .game {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             gap: 40px;
             align-items: center;
             width: 100%;
@@ -55,8 +55,8 @@
 
         .left img,
         .right img {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             object-position: center;
             border-radius: 8px;
@@ -86,8 +86,6 @@
 
         .validate-button {
             display: block;
-            width: 200px;
-            height: 60px;
             margin: 40px auto 0;
             background-color: #FFA500;
             color: white;
@@ -98,116 +96,64 @@
             cursor: pointer;
             text-align: center;
             line-height: 60px;
+            padding: 10px;
         }
 
-        .title {
-            width: 20%;
-            text-align: left;
-        }
 
         .title h2 {
             font-weight: normal;
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0103-24b6c836.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
 </head>
 
 <body>
     <div class="game">
-        <div class="options" style="display: flex; flex-direction: row; gap: 40px;">
+        <!-- <div class="title">
+            <h1>La tecnología avanza...</h1>
+            <h2>Une los objetos con su correspondiente avance tecnológico.</h2>
+        </div> -->
+        <div class="options">
             <div class="left">
                 <div style="display: flex; align-items: center;">
-                    <img id="reloj-antiguo" src="/miscelaneas/assets/clock-5fab664c.png" alt="Reloj Antiguo">
+                    <img id="reloj-antiguo" src="/miscelaneas/assets/clock-5fab664c.png" alt="Reloj antiguo" title="Reloj de bolsillo">
                     <div class="circle"></div>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <img id="carro-madera" src="/miscelaneas/assets/cart-e3f1091c.png" alt="Carro de madera">
+                    <img id="carro-madera" src="/miscelaneas/assets/carreta-102a2ca1.jpeg" alt="Carro de madera" title="Carro de madera">
                     <div class="circle"></div>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <img id="mano" src="/miscelaneas/assets/hand-6c00b66c.png" alt="Mano">
+                    <img id="mano" src="data:image/jpeg;base64,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" alt="Campana" title="Campana">
                     <div class="circle"></div>
                 </div>
             </div>
             <div class="right">
                 <div style="display: flex; align-items: center;">
-                    <img id="auto-moderno" src="/miscelaneas/assets/car-d6dd07a6.png" alt="Auto moderno">
+                    <img id="auto-moderno" src="/miscelaneas/assets/car-d6dd07a6.png" alt="Auto moderno" title="Automóvil">
                     <div class="circle"></div>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <img id="smartphone" src="/miscelaneas/assets/smartphone-1fd9f4d7.png" alt="Smartphone">
+                    <img id="smartphone" src="/miscelaneas/assets/smartphone-1fd9f4d7.png" alt="Smartphone" title="Reloj inteligente">
                     <div class="circle"></div>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <img id="timbre" src="/miscelaneas/assets/doorbell-01fc5b2d.png" alt="Timbre">
+                    <img id="timbre" src="/miscelaneas/assets/timbre-43f47c5e.jpg" alt="Timbre" title="Timbre">
                     <div class="circle"></div>
                 </div>
             </div>
             <div id="connectorsContainer"></div>
         </div>
 
-        <div class="title">
-            <h1>La tecnología Avanza...</h1>
-            <h2>Uní los avances tecnológicos según corresponda.</h2>
-        </div>
+        
     </div>
 
-    <button class="validate-button">Validar</button>
+    <button class="validate-button">Guardar y comprobar</button>
 </body>
 
-<script>
-    // !TODO: Add lang based messages on constructor.
-    new DragJoiner({
-        categories: [
-            {
-                name: "antiguo",
-                element: document.querySelector(".left"),
-                items: [
-                    {
-                        name: "Reloj Antiguo",
-                        element: document.getElementById("reloj-antiguo"),
-                    },
-                    {
-                        name: "Carro de madera",
-                        element: document.getElementById("carro-madera"),
-                    },
-                    {
-                        name: "Mano",
-                        element: document.getElementById("mano"),
-                    },
-                ],
-            },
-            {
-                name: "moderno",
-                element: document.querySelector(".right"),
-                items: [
-                    {
-                        name: "Auto moderno",
-                        element: document.getElementById("auto-moderno"),
-                    },
-                    {
-                        name: "Smartphone",
-                        element: document.getElementById("smartphone"),
-                    },
-                    {
-                        name: "Timbre",
-                        element: document.getElementById("timbre"),
-                    },
-                ],
-            },
-        ],
-        expectations: [
-            ["Reloj Antiguo", "Smartphone"],
-            ["Carro de madera", "Auto moderno"],
-            ["Mano", "Timbre"],
-        ],
-        connector: {
-            container: document.getElementById("connectorsContainer"),
-            color: "#0000FF",
-            radius: 5,
-        },
-        verifyButton: document.querySelector(".validate-button"),
-    });
-</script>
+
 
 </html>

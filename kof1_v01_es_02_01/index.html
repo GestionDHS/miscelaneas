@@ -12,11 +12,15 @@
             padding: 0;
             background-color: #eaf4ff;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             border: 2px dashed #000;
         }
 
         .main-container {
-            width: 100%;
+            width: 90%;
+            max-width: 1000px;
             background-color: #fff;
             border-radius: 10px;
             border: 2px dashed #000;
@@ -35,15 +39,18 @@
         }
 
         .content {
-            display: grid;
-            grid-template-rows: auto auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
             width: 100%;
         }
 
         .base {
+            width: 30%;
             background-color: #fff8e1;
             padding: 20px;
             border-radius: 10px;
+            margin-right: 20px;
             border: 2px dashed #000;
         }
 
@@ -58,13 +65,14 @@
         }
 
         .categories {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 65%;
         }
 
         .category {
-            height: 200px;
+            width: 45%;
             padding: 20px;
             background-color: #fff8e1;
             border-radius: 10px;
@@ -132,19 +140,14 @@
             margin-top: 30px;
         }
 
-        .validate-button {
-            display: block;
-            margin: 0px auto 0;
-            background-color: #9850c0;
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
-            font-size: 24px;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
+            border: 2px dashed #000;
+            border-radius: 5px;
             cursor: pointer;
-            text-align: center;
-            line-height: 60px;
-            padding: 10px;
+            font-size: 16px;
         }
 
         .category#contiene-computadoras {
@@ -155,69 +158,117 @@
             background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0201-e82904b5.js"></script>
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+  <script type="module" crossorigin src="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js"></script>
 </head>
 
 <body>
     <div class="main-container">
-        <!-- <h1>
+        <h1>
             ¿Cuáles de los siguientes objetos son o contienen computadoras en su interior?
-        </h1> -->
+        </h1>
         <div class="content">
             <div class="base">
-                <!-- <h4>Arrastra los objetos hacia el lugar correspondiente</h4> -->
+                <h4>Arrastra los objetos hacia el lugar correspondiente</h4>
 
                 <div class="base-options">
                     <div class="image-container" id="telefono">
-                        <img src="/miscelaneas/assets/telefono-40e70170.png" alt="telefono" title="Celular">
+                        <img src="/miscelaneas/assets/telefono-40e70170.png" alt="telefono">
                     </div>
                     <div class="image-container" id="avion">
-                        <img src="/miscelaneas/assets/avion-92b78564.png" alt="avion" title="Avión">
+                        <img src="/miscelaneas/assets/avion-391c110d.png" alt="avion">
                     </div>
                     <div class="image-container" id="ventilador">
-                        <img src="/miscelaneas/assets/ventilador-a7c70c77.png" alt="ventilador" title="Ventilador">
+                        <img src="/miscelaneas/assets/ventilador-745ca968.png" alt="ventilador">
                     </div>
                     <div class="image-container" id="lampara">
-                        <img src="/miscelaneas/assets/lampara-e4c5f442.png" alt="lampara" title="Lámpara">
+                        <img src="/miscelaneas/assets/lampara-4c3ac40e.png" alt="lampara">
                     </div>
                     <div class="image-container" id="atornilladora">
-                        <img src="/miscelaneas/assets/atornilladora-4e7be3a3.png" alt="atornilladora" title="Taladro">
+                        <img src="/miscelaneas/assets/atornilladora-12244711.png" alt="atornilladora">
                     </div>
                     <div class="image-container" id="microondas">
-                        <img src="/miscelaneas/assets/microondas-ab7dea32.png" alt="microondas" title="Microondas">
+                        <img src="/miscelaneas/assets/microondas-ee220335.png" alt="microondas">
                     </div>
                     <div class="image-container" id="dron">
-                        <img src="/miscelaneas/assets/dron-df350f09.png" alt="dron" title="Drone">
+                        <img src="/miscelaneas/assets/dron-07f17d49.png" alt="dron">
                     </div>
                     <div class="image-container" id="consola">
-                        <img src="/miscelaneas/assets/consola-46c4f576.png" alt="consola" title="Consola de juego">
+                        <img src="/miscelaneas/assets/consola-e6e1bbe2.png" alt="consola">
                     </div>
                 </div>
             </div>
 
             <div class="categories">
                 <div class="category" id="contiene-computadoras">
-                    <div class="header">Tienen computadoras</div>
+                    <div class="header">Contiene Computadoras</div>
                     <div class="objects" id="contiene-computadoras"></div>
                 </div>
 
                 <div class="category" id="no-contiene-computadoras">
-                    <div class="header">NO tienen computadoras</div>
+                    <div class="header">No Contiene Computadoras</div>
                     <div class="objects" id="no-contiene-computadoras"></div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <button class="validate-button">Guardar y comprobar</button>
+            <button class="button">Verificar</button>
         </div>
     </div>
 </body>
 
 
-
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".base-options"),
+            items: [
+                {
+                    element: document.getElementById("telefono"),
+                    expectedCategory: "contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("avion"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("ventilador"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("lampara"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("atornilladora"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("microondas"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("dron"),
+                    expectedCategory: "no-contiene-computadoras",
+                },
+                {
+                    element: document.getElementById("consola"),
+                    expectedCategory: "contiene-computadoras",
+                },
+            ],
+        },
+        categories: [
+            {
+                name: "contiene-computadoras",
+                element: document.getElementById("contiene-computadoras"),
+            },
+            {
+                name: "no-contiene-computadoras",
+                element: document.getElementById("no-contiene-computadoras"),
+            }
+        ],
+        verifyButton: document.querySelector(".button"),
+    });
+</script>
 
 </html>

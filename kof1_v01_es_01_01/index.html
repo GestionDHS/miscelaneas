@@ -202,6 +202,57 @@
 </body>
 
 
-
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".objects-container"),
+            items: [
+                {
+                    element: document.getElementById("object-1"),
+                    expectedCategory: "no-tecnologico",
+                },
+                {
+                    element: document.getElementById("object-2"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-3"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-4"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-5"),
+                    expectedCategory: "no-tecnologico",
+                },
+                {
+                    element: document.getElementById("object-6"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-7"),
+                    expectedCategory: "tecnologico",
+                },
+                {
+                    element: document.getElementById("object-8"),
+                    expectedCategory: "no-tecnologico",
+                },
+            ],
+        },
+        categories: [
+            {
+                name: "tecnologico",
+                element: document.getElementById("technological"),
+            },
+            {
+                name: "no-tecnologico",
+                element: document.getElementById("non-technological"),
+            }
+        ],
+        verifyButton: document.querySelector(".button-verificar"),
+    });
+</script>
 
 </html>

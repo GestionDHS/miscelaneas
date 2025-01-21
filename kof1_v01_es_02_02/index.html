@@ -15,27 +15,24 @@
             flex-wrap: wrap;
         }
 
-        .container {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+        .container div {
+            flex: 1 1 30%;
+            padding: 10px;
             text-align: center;
         }
 
         .container img {
-            /* width: 100%;
-            height: 100%;
-            margin-top: 20px; */
-            display: none;
+            width: 80%;
+            margin-top: 20px;
         }
 
         .text-box {
             border-radius: 10px;
-            padding: 10px;
+            padding: 5px;
+            text-align: center;
             font-size: 2em;
-            /* width: 100%; */
-            /* margin:100px; */
+            width: 40%;
+            margin: 0 auto;
         }
 
         .text-box.pink {
@@ -65,7 +62,6 @@
             padding: 10px;
             margin: 10px;
             width: 200px;
-            height: 50px;
             text-align: center;
             font-weight: bold;
             display: flex;
@@ -73,35 +69,24 @@
             justify-content: center;
         }
 
-        .drop-zone{
-            background-image: url("/miscelaneas/assets/pc-0cccc503.png");
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
         .drop-box {
-            margin: 10px;
-            min-height: 400px;
-            display: grid;
-            grid-template-rows: auto auto auto;
-            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 100px;
         }
 
-
-        .validate-button {
+        #executeButton {
             display: block;
-            margin: 20px auto 0;
-            background-color: #9850c0;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 1.5em;
+            background-color: #47d16b;
             color: white;
-            font-size: 24px;
-            font-weight: bold;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            text-align: center;
-            line-height: 60px;
-            padding: 10px;
         }
 
         @media (max-width: 768px) {
@@ -114,48 +99,88 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0202-109ebeef.js"></script>
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+  <script type="module" crossorigin src="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <div class="text-box pink">Input</div>
-        <div class="text-box yellow">Procesamiento</div>
-        <div class="text-box green">Output</div>
-        <div class="drop-zone">
-            
-            <div class="drop-box" id="drop-box-1">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 1" id="c1">
-            </div>
+        <div>
+            <div class="text-box pink">Input</div>
+            <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 1" id="c1">
+            <div class="drop-box" id="drop-box-1"></div>
         </div>
-        <div class="drop-zone">
-            <div class="drop-box" id="drop-box-2">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 2" id="c2">
-            </div>
+        <div>
+            <div class="text-box yellow">Procesamiento</div>
+            <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 2" id="c2">
+            <div class="drop-box" id="drop-box-2"></div>
         </div>
-        <div class="drop-zone">
-            <div class="drop-box" id="drop-box-3">
-                <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 3" id="c3">
-            </div>
+        <div>
+            <div class="text-box green">Output</div>
+            <img src="/miscelaneas/assets/pc-0cccc503.png" alt="PC Image 3" id="c3">
+            <div class="drop-box" id="drop-box-3"></div>
         </div>
     </div>
 
     <div class="options">
         <div class="item" id="item-1">1+1</div>
-        <div class="item" id="item-2">462315</div>
-        <div class="item" id="item-3">Ordenar de menor a mayor</div>
+        <div class="item" id="item-2">Youtube ordenando por más vistos</div>
+        <div class="item" id="item-3">"Gatitos graciosos y mas"</div>
         <div class="item" id="item-4">2</div>
-        <div class="item" id="item-5">123456</div>
+        <div class="item" id="item-5">"Quiero ver videos de gatitos"</div>
         <div class="item" id="item-6">Sumar dos números</div>
     </div>
 
-    <button class="validate-button" id="executeButton">Guardar y comprobar</button>
+    <button id="executeButton">Ejecutar</button>
 </body>
 
 
-
+<script>
+    new DragDivider({
+        base: {
+            element: document.querySelector(".options"),
+            items: [
+                {
+                    element: document.getElementById("item-1"),
+                    expectedCategory: "Input",
+                },
+                {
+                    element: document.getElementById("item-2"),
+                    expectedCategory: "Procesamiento",
+                },
+                {
+                    element: document.getElementById("item-3"),
+                    expectedCategory: "Output",
+                },
+                {
+                    element: document.getElementById("item-4"),
+                    expectedCategory: "Output",
+                },
+                {
+                    element: document.getElementById("item-5"),
+                    expectedCategory: "Input",
+                },
+                {
+                    element: document.getElementById("item-6"),
+                    expectedCategory: "Procesamiento",
+                }
+            ],
+        },
+        categories: [
+            {
+                name: "Input",
+                element: document.getElementById("drop-box-1"),
+            },
+            {
+                name: "Procesamiento",
+                element: document.getElementById("drop-box-2"),
+            },
+            {
+                name: "Output",
+                element: document.getElementById("drop-box-3"),
+            }
+        ],
+        verifyButton: document.getElementById("executeButton"),
+    });
+</script>
 
 </html>

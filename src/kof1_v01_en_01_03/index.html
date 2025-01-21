@@ -150,8 +150,8 @@
     <button class="validate-button">Save and check</button>
 </body>
 <script src="../shared/drag.js" type="module"></script>
-<script>
-    // !TODO: Add lang based messages on constructor.
+<script type="module">
+    import { DragJoiner } from "../shared/drag.js"
     new DragJoiner({
         categories: [
             {

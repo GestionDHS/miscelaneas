@@ -3,7 +3,8 @@ import { PGEvent } from "./pg-event";
 /**
  * Class to handle drag-and-drop functionality for categorizing items.
  */
-class DragDivider {
+export class DragDivider {
+    
     /**
      * @typedef {Object} ItemConfig
      * @property {HTMLElement} element - The HTML element of the item.
@@ -26,7 +27,9 @@ class DragDivider {
      * @param {DragDividerConfig} config - Initial configuration for the functionality.
      * @throws {Error} Throws an error if the configuration is invalid.
      */
+   
     constructor(config) {
+        
         if (!config.base || !config.base.element || !config.categories || !config.verifyButton) {
             throw new Error("Invalid configuration: base, categories, and verifyButton are required.");
         }
@@ -34,6 +37,7 @@ class DragDivider {
         this.base = config.base;
         this.categories = config.categories;
         this.onChange = config.onChange;
+        this.messages = config.messages;
 
         config.verifyButton.addEventListener("click", () => this.validateItems());
 
@@ -42,6 +46,7 @@ class DragDivider {
         this.initBase();
     }
 
+    
     /**
      * Initializes the items in the base container to be draggable.
      */
@@ -130,7 +135,7 @@ class DragDivider {
      */
     validateItems() {
         let allCorrect = true;
-
+        
         // Check items in categories
         this.categories.forEach(category => {
             Array.from(category.element.querySelectorAll(".item")).forEach(child => {
@@ -158,7 +163,8 @@ class DragDivider {
         });
 
         const pgEvent = new PGEvent();
-        console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
+        
+        // console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
         pgEvent.postToPg({
             event: allCorrect ? "SUCCESS" : "FAILURE",
             message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
@@ -190,7 +196,7 @@ class DragDivider {
 /**
  * Class to handle drag-and-drop functionality for joining items with connectors.
  */
-class DragJoiner {
+export class DragJoiner {
     /**
      * @typedef {Object} ItemConfig
      * @property {HTMLElement} element - The HTML element of the item.
@@ -226,6 +232,7 @@ class DragJoiner {
         this.connectorRadius = config.connector.radius || 5;
         this.onChange = config.onChange;
         this.connectorsContainer = config.connector.container;
+        this.messages = config.messages
 
         // Clear the container for connectors
         this.connectorsContainer.innerHTML = '';
@@ -387,7 +394,7 @@ class DragJoiner {
             start: this.startItem,
             target: this.categories.flatMap(category => category.items).find(item => item.element === dropTarget),
         };
-        console.log(this.relations[this.connectorIdCounter]);
+        // console.log(this.relations[this.connectorIdCounter]);
 
         // Ensure the target has a unique value or overwrite
         Object.keys(this.relations).forEach(key => {

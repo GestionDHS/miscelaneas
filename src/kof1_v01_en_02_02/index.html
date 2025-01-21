@@ -139,7 +139,8 @@
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
-<script>
+<script type="module">
+    import { DragDivider } from "../shared/drag.js"
     new DragDivider({
         base: {
             element: document.querySelector(".options"),

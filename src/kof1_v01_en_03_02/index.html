@@ -31,8 +31,10 @@
         }
 
         .element {
-            width: 240px;
-            height: 80px;
+            width: 300px;
+            /* Aumentar el tamaño del rectángulo */
+            height: 100px;
+            /* Aumentar el tamaño del rectángulo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -53,6 +55,7 @@
         .green {
             background-color: #ff8d7aff;
         }
+
 
         .arrow-right,
         .arrow-up-down {
@@ -79,21 +82,29 @@
         }
 
         .option {
-            padding: 10px 20px;
-            background-color: #bbd7f368;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
             font-size: 20px;
             font-weight: bold;
-            width: 200px;
+            width: 140px;
             text-align: center;
             user-select: none;
             cursor: pointer;
 
         }
+
+        .option img {
+            width: 80%;
+            /* Reducir el tamaño de la imagen */
+            height: auto;
+            background: none;
+            /* Asegurar que las imágenes no tengan fondo */
+        }
+
         .validate-button {
             display: block;
-            margin: 40px auto 0;
+            margin: 20px auto 0;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -105,20 +116,6 @@
             line-height: 60px;
             padding: 10px;
         }
-
-        /* #executeButton {
-            padding: 20px 40px;
-            font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #executeButton:hover {
-            background-color: #45a049;
-        } */
 
         .title {
             display: flex;
@@ -157,21 +154,27 @@
     </div>
 
     <div class="options">
-        <div class="option" id="option-input">Input</div>
-        <div class="option" id="option-storage">Almacenamiento</div>
-        <div class="option" id="option-output">Output</div>
-        <div class="option" id="option-processing">Procesamiento</div>
+        <div class="option" id="option-processing">
+            <img src="images/cpu.jpeg" alt="Procesamiento" title="CPU">
+        </div>
+        <div class="option" id="option-output">
+            <img src="images/monitor.jpeg" alt="Output" title="Monitor">
+        </div>
+        <div class="option" id="option-input">
+            <img src="images/mando.jpeg" alt="Input" title="Joystick">
+        </div>
+        <div class="option" id="option-storage">
+            <img src="images/memoria.jpeg" alt="Almacenamiento" title="Memory">
+        </div>
     </div>
 
-    <button id="executeButton" class="validate-button">Guardar y comprobar</button>
+    <button id="executeButton" class="validate-button">Save and check</button>
 </body>
 
-<script src="../shared/drag.js" type="module"></script>
+<!-- <script src="../shared/drag.js" type="module"></script> -->
 <script type="module">
-    import { DragDivider } from "../shared/drag.js"
-
+import {DragDivider} from "../shared/drag.js" 
     new DragDivider({
-        
         base: {
             element: document.querySelector(".options"),
             items: [
@@ -213,11 +216,10 @@
         ],
         verifyButton: document.getElementById("executeButton"),
         messages: {
-            onFail: "Hay algunas partes del modelo IPO que no están en lugar correcto.",
-            onSuccess: "¡Gran trabajo! El modelo IPO es correcto."
+            onFail: "Some parts of the IPO model are not in the correct place.",
+            onSuccess: "Great job! The IPO model is correct."
         }
     });
-    
 </script>
 
 </html>

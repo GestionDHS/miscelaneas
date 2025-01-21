@@ -158,12 +158,12 @@
 
     <div class="options">
         <div class="option" id="option-input">Input</div>
-        <div class="option" id="option-storage">Almacenamiento</div>
+        <div class="option" id="option-storage">Storage</div>
         <div class="option" id="option-output">Output</div>
-        <div class="option" id="option-processing">Procesamiento</div>
+        <div class="option" id="option-processing">Processing</div>
     </div>
 
-    <button id="executeButton" class="validate-button">Guardar y comprobar</button>
+    <button id="executeButton" class="validate-button">Save and check</button>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
@@ -181,7 +181,7 @@
                 },
                 {
                     element: document.getElementById("option-storage"),
-                    expectedCategory: "Almacenamiento",
+                    expectedCategory: "Storage",
                 },
                 {
                     element: document.getElementById("option-output"),
@@ -189,7 +189,7 @@
                 },
                 {
                     element: document.getElementById("option-processing"),
-                    expectedCategory: "Procesamiento",
+                    expectedCategory: "Processing",
                 }
             ],
         },
@@ -199,7 +199,7 @@
                 element: document.querySelector(".red"),
             },
             {
-                name: "Almacenamiento",
+                name: "Storage",
                 element: document.querySelector(".yellow"),
             },
             {
@@ -207,14 +207,14 @@
                 element: document.querySelector(".green"),
             },
             {
-                name: "Procesamiento",
+                name: "Processing",
                 element: document.querySelector(".blue"),
             }
         ],
         verifyButton: document.getElementById("executeButton"),
         messages: {
-            onFail: "Hay algunas partes del modelo IPO que no están en lugar correcto.",
-            onSuccess: "¡Gran trabajo! El modelo IPO es correcto."
+            onFail: "Some parts of the IPO model are not in the correct place.",
+            onSuccess: "Great job! The IPO model is correct."
         }
     });
     

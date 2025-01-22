@@ -39,6 +39,12 @@ export class DragDivider {
         this.onChange = config.onChange;
         this.messages = config.messages;
 
+        this.pgEvent = new PGEvent();
+        this.pgEvent.getValues();
+        if (this.pgEvent.data.state) {
+            this.loadState(JSON.parse(this.pgEvent.data.state));
+        }
+
         config.verifyButton.addEventListener("click", () => this.validateItems());
 
         this.initDraggableItems();
@@ -169,7 +175,7 @@ export class DragDivider {
             event: allCorrect ? "SUCCESS" : "FAILURE",
             message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
             reasons: [],
-            state: JSON.stringify({})
+            state: JSON.stringify(this.getState())
         });
     }
 
@@ -190,6 +196,38 @@ export class DragDivider {
         if (this.onChange) {
             this.onChange(baseElements, categoriesState);
         }
+
+        const pgEvent = new PGEvent();
+        pgEvent.postToPg({
+            event: "STATE_UPDATE",
+            message: "State updated",
+            reasons: [],
+            state: JSON.stringify(this.getState())
+        });
+    }
+
+    getState() {
+        const baseElements = Array.from(this.base.element.querySelectorAll(".item"));
+        const categoriesState = this.categories.map(category => {
+            return {
+                name: category.name,
+                items: Array.from(category.element.querySelectorAll(".item")).map(item => item.dataset.itemId)
+            };
+        });
+        return { base: baseElements.map(item => item.dataset.itemId), categories: categoriesState };
+    }
+
+    loadState(state) {
+        const baseItems = state.base.map(id => document.querySelector(`[data-item-id="${id}"]`));
+        baseItems.forEach(item => this.base.element.appendChild(item));
+
+        state.categories.forEach(categoryState => {
+            const category = this.categories.find(cat => cat.name === categoryState.name);
+            if (category) {
+                const categoryItems = categoryState.items.map(id => document.querySelector(`[data-item-id="${id}"]`));
+                categoryItems.forEach(item => category.element.appendChild(item));
+            }
+        });
     }
 }
 
@@ -244,6 +282,12 @@ export class DragJoiner {
         // Initialize draggable items and connectors
         this.initItems();
         this.setupDraggableItems();
+
+        this.pgEvent = new PGEvent();
+        this.pgEvent.getValues();
+        if (this.pgEvent.data.state) {
+            this.loadState(JSON.parse(this.pgEvent.data.state));
+        }
 
         this.verifyButton = config.verifyButton;
         this.verifyButton.addEventListener("click", () => this.validateConnections());
@@ -409,6 +453,14 @@ export class DragJoiner {
             this.onChange(this.relations);
         }
 
+        const pgEvent = new PGEvent();
+        pgEvent.postToPg({
+            event: "STATE_UPDATE",
+            message: "State updated",
+            reasons: [],
+            state: JSON.stringify(this.getState())
+        });
+
         this.connector = null;
         this.startItem = null;
     }
@@ -496,7 +548,69 @@ export class DragJoiner {
             event: allCorrect ? "SUCCESS" : "FAILURE",
             message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
             reasons: [],
-            state: JSON.stringify({})
+            state: JSON.stringify(this.getState())
         });
+    }
+
+    getState() {
+        return Object.keys(this.relations).map(key => {
+            const relation = this.relations[key];
+            return {
+                start: relation.start.name,
+                target: relation.target.name,
+                connectorId: relation.connector.id
+            };
+        });
+    }
+
+    loadState(state) {
+        state.forEach(relation => {
+            const startItem = this.categories.flatMap(category => category.items).find(item => item.name === relation.start);
+            const targetItem = this.categories.flatMap(category => category.items).find(item => item.name === relation.target);
+
+            if (startItem && targetItem) {
+                const connector = document.createElement("div");
+                connector.id = relation.connectorId;
+                connector.style.position = "absolute";
+                connector.style.backgroundColor = this.connectorColor;
+                connector.style.width = `${this.connectorWidth}px`;
+                connector.style.height = `${this.connectorWidth}px`;
+                connector.style.borderRadius = `${this.connectorRadius}px`;
+                connector.style.cursor = "pointer";
+                connector.style.pointerEvents = "auto";
+
+                this.connectorsContainer.appendChild(connector);
+
+                this.relations[relation.connectorId] = {
+                    connector: connector,
+                    start: startItem,
+                    target: targetItem
+                };
+
+                this.updateConnectorPositionForLoadedState(connector, startItem.element, targetItem.element);
+            }
+        });
+    }
+
+    updateConnectorPositionForLoadedState(connector, startElement, targetElement) {
+        const startRect = startElement.getBoundingClientRect();
+        const targetRect = targetElement.getBoundingClientRect();
+
+        const startX = startRect.left + startRect.width / 2;
+        const startY = startRect.top + startRect.height / 2;
+        const endX = targetRect.left + targetRect.width / 2;
+        const endY = targetRect.top + targetRect.height / 2;
+
+        const width = endX - startX;
+        const height = endY - startY;
+
+        const angle = Math.atan2(height, width) * 180 / Math.PI;
+
+        connector.style.width = `${Math.abs(width)}px`;
+        connector.style.height = "4px";
+        connector.style.transform = `rotate(${angle}deg)`;
+        connector.style.transformOrigin = `0% 50%`;
+        connector.style.left = `${startX}px`;
+        connector.style.top = `${startY}px`;
     }
 }

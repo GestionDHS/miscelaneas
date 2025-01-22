@@ -10,30 +10,26 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             background-image: url('/miscelaneas/assets/background-34f6d2d5.png');
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
+        
         .game {
             display: flex;
             flex-direction: column;
-            gap: 40px;
+            gap: 20px;
             align-items: center;
             width: 100%;
-            justify-content: center;
+            max-height: fit-content;
         }
 
         .options{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            column-gap: 300px;
+            column-gap: 200px;
         }
 
         .container {
@@ -55,8 +51,8 @@
 
         .left img,
         .right img {
-            width: 200px;
-            height: 200px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
             object-position: center;
             border-radius: 8px;
@@ -86,7 +82,7 @@
 
         .validate-button {
             display: block;
-            margin: 40px auto 0;
+            margin: 20px auto 0;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -104,10 +100,10 @@
             font-weight: normal;
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0103-5f4b4caa.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0103-99e3d6ce.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cca25e9a.js">
 </head>
 
 <body>
@@ -148,10 +144,10 @@
             <div id="connectorsContainer"></div>
         </div>
 
+        <button class="validate-button">Save and check</button>
         
     </div>
 
-    <button class="validate-button">Save and check</button>
 </body>
 
 

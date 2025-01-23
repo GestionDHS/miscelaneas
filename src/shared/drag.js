@@ -197,13 +197,7 @@ export class DragDivider {
             this.onChange(baseElements, categoriesState);
         }
 
-        // Check if the state is correct
-        const pgEvent = new PGEvent();
-        pgEvent.postToPg({
-            event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
-            reasons: [],
-            state: JSON.stringify(this.getState())
-        });
+        // No guardar el estado aquí
     }
 
     getState() {

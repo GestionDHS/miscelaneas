@@ -140,17 +140,27 @@ export class DragDivider {
      * Validates the placement of items in categories.
      */
     validateItems() {
+        pgEvent.postToPg({
+            event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
+            message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
+            reasons: [],
+            state: JSON.stringify(this.getState())
+        });
+    }
+
+    /**
+     * Returns a boolean indicating if the items are correctly placed in the categories.
+     * @returns {boolean} - True if all items are correctly placed, false otherwise.
+     */
+    areItemsCorrect() {
         let allCorrect = true;
-        
+
         // Check items in categories
         this.categories.forEach(category => {
             Array.from(category.element.querySelectorAll(".item")).forEach(child => {
                 const itemConfig = this.base.items.find(item => item.element === child);
 
-                if (!itemConfig) {
-                    console.error("Unable to validate item: Missing reference.", child);
-                    allCorrect = false;
-                } else if (itemConfig.expectedCategory !== category.name) {
+                if (!itemConfig || itemConfig.expectedCategory !== category.name) {
                     allCorrect = false;
                 }
             });
@@ -160,23 +170,12 @@ export class DragDivider {
         Array.from(this.base.element.querySelectorAll(".item")).forEach(child => {
             const itemConfig = this.base.items.find(item => item.element === child);
 
-            if (!itemConfig) {
-                console.error("Unable to validate item: Missing reference.", child);
-                allCorrect = false;
-            } else if (itemConfig.expectedCategory !== "base") {
+            if (!itemConfig || itemConfig.expectedCategory !== "base") {
                 allCorrect = false;
             }
         });
 
-        const pgEvent = new PGEvent();
-        
-        // console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
-        pgEvent.postToPg({
-            event: allCorrect ? "SUCCESS" : "FAILURE",
-            message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
-            reasons: [],
-            state: JSON.stringify(this.getState())
-        });
+        return allCorrect;
     }
 
     /**
@@ -197,10 +196,10 @@ export class DragDivider {
             this.onChange(baseElements, categoriesState);
         }
 
+        // Check if the state is correct
         const pgEvent = new PGEvent();
         pgEvent.postToPg({
-            event: "STATE_UPDATE",
-            message: "State updated",
+            event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
             reasons: [],
             state: JSON.stringify(this.getState())
         });
@@ -452,14 +451,6 @@ export class DragJoiner {
         if (this.onChange) {
             this.onChange(this.relations);
         }
-
-        const pgEvent = new PGEvent();
-        pgEvent.postToPg({
-            event: "STATE_UPDATE",
-            message: "State updated",
-            reasons: [],
-            state: JSON.stringify(this.getState())
-        });
 
         this.connector = null;
         this.startItem = null;

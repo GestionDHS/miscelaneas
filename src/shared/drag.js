@@ -48,6 +48,8 @@ export class DragDivider {
         // Load state if available
         this.pgEvent = new PGEvent();
         this.pgEvent.getValues();
+        console.log(this.pgEvent);
+        console.log(JSON.parse(this.pgEvent));
         if (this.pgEvent.data.state) {
             console.log("Previous state found:", JSON.parse(this.pgEvent.data.state));
             this.loadState(JSON.parse(this.pgEvent.data.state));

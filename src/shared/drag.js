@@ -140,9 +140,10 @@ export class DragDivider {
      * Validates the placement of items in categories.
      */
     validateItems() {
+        const pgEvent = new PGEvent();
         pgEvent.postToPg({
             event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
-            message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
+            message: this.areItemsCorrect() ? this.messages.onSuccess : this.messages.onFail,
             reasons: [],
             state: JSON.stringify(this.getState())
         });

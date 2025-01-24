@@ -151,7 +151,7 @@ export class DragDivider {
         const pgEvent = new PGEvent();
         pgEvent.getValues()
         const state = this.getState();
-        console.log(state);
+        // console.log(state);
         
         pgEvent.postToPg({
             event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
@@ -179,16 +179,18 @@ export class DragDivider {
     
         // Limpiar el estado de las categorías y cargar el estado inicial
         this.loadState(initialState);
-    
+        
+        const pgEvent = new PGEvent();
+        pgEvent.getValues()
         // Enviar un evento indicando que se ha realizado el reset
-        this.pgEvent.postToPg({
+        pgEvent.postToPg({
             event: "FAILURE",
             message: "Activity reset to the initial state.",
             reasons: [],
             state: JSON.stringify(initialState)
         });
     
-        console.log("Activity reset successfully:", initialState);
+        // console.log("Activity reset successfully:", initialState);
     }
     
     
@@ -264,7 +266,6 @@ export class DragDivider {
      * @param {Object} state - The state to load.
      */
     loadState(state) {
-        console.log("Loading state:", state);
     
         // Mover los elementos al contenedor base antes de limpiar
         this.categories.forEach(category => {
@@ -309,7 +310,6 @@ export class DragDivider {
             }
         });
     
-        console.log("State successfully loaded.");
     }
     
     
@@ -620,7 +620,6 @@ export class DragJoiner {
         }
 
         const pgEvent = new PGEvent();
-        console.log(allCorrect ? this.messages.onSuccess : this.messages.onFail);
         pgEvent.postToPg({
             event: allCorrect ? "SUCCESS" : "FAILURE",
             message: allCorrect ? this.messages.onSuccess : this.messages.onFail,

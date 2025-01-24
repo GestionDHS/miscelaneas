@@ -43,7 +43,7 @@
             font-size: 16px;
         }
 
-        .validate-button {
+        .validate-button, .reset-button {
             display: block;
             margin: 10px auto 0;
             background-color: #f1ebb3  ;
@@ -63,7 +63,7 @@
         }
 
         .drop-zone {
-            height: 150px;
+            min-height: 150px;
             /* Ajustar la altura automáticamente */
             background: rgba(255, 255, 255, 0.457);
             border-radius: 10px;
@@ -117,20 +117,20 @@
         }
 
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0101-3a87237e.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0101-9026fdc1.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-8e9bb6f4.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-e8c344da.js">
 </head>
 
 <body>
     <div class="game-container">
 
         <div class="drop-zones">
-            <div class="drop-zone" id="technological">
+            <div class="drop-zone" id="tecnologico">
                 <h2 class="drop-zone-title">Technological objects</h2>
             </div>
-            <div class="drop-zone" id="non-technological">
+            <div class="drop-zone" id="no-tecnologico">
                 <h2 class="drop-zone-title">Non-technological objects</h2>
             </div>
         </div>
@@ -163,10 +163,12 @@
         </div>
 
         <button class="validate-button">Save and check</button>
+        <button class="reset-button">Reset</button>
+
     </div>
 </body>
 
-
+<!-- <script src="../shared/drag.js" type="module"></script> -->
 
 
 </html>

@@ -75,7 +75,7 @@
         }
 
 
-        .validate-button {
+        .validate-button, .reset-button {
             display: block;
             margin: 20px auto 0;
             background-color: #9850c0;
@@ -142,9 +142,8 @@
 <script type="module">
     import { DragDivider } from "../shared/drag.js"
     import { PGEvent } from "../shared/pg-event.js"
+    
     const pgEvent = new PGEvent();
-
-
     window.onload = () => {
         pgEvent.getValues();
 

@@ -41,8 +41,9 @@ export class DragDivider {
 
         config.verifyButton.addEventListener("click", () => this.validateItems());
         const resetButton = document.querySelector(".reset-button");
-        resetButton.addEventListener("click", () => this.resetActivity());
-
+        if (resetButton) {
+            resetButton.addEventListener("click", () => this.resetActivity());
+        }
 
         this.initDraggableItems();
         this.initCategories();

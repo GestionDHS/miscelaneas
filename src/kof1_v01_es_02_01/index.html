@@ -204,6 +204,7 @@
 
         <div class="footer">
             <button class="validate-button">Guardar y comprobar</button>
+            <button class="validate-button button">Resetear</button>
         </div>
     </div>
 </body>
@@ -211,60 +212,79 @@
 <script src="../shared/drag.js" type="module"></script>
 <script type="module">
     import { DragDivider } from "../shared/drag.js"
-    new DragDivider({
-        base: {
-            element: document.querySelector(".base-options"),
-            items: [
-                {
-                    element: document.getElementById("telefono"),
-                    expectedCategory: "contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("avion"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("ventilador"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("lampara"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("atornilladora"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("microondas"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("dron"),
-                    expectedCategory: "no-contiene-computadoras",
-                },
-                {
-                    element: document.getElementById("consola"),
-                    expectedCategory: "contiene-computadoras",
-                },
-            ],
-        },
-        categories: [
-            {
-                name: "contiene-computadoras",
-                element: document.getElementById("contiene-computadoras"),
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragDivider = new DragDivider({
+            base: {
+                element: document.querySelector(".base-options"),
+                items: [
+                    {
+                        element: document.getElementById("telefono"),
+                        expectedCategory: "contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("avion"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("ventilador"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("lampara"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("atornilladora"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("microondas"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("dron"),
+                        expectedCategory: "no-contiene-computadoras",
+                    },
+                    {
+                        element: document.getElementById("consola"),
+                        expectedCategory: "contiene-computadoras",
+                    },
+                ],
             },
-            {
-                name: "no-contiene-computadoras",
-                element: document.getElementById("no-contiene-computadoras"),
+            categories: [
+                {
+                    name: "contiene-computadoras",
+                    element: document.getElementById("contiene-computadoras"),
+                },
+                {
+                    name: "no-contiene-computadoras",
+                    element: document.getElementById("no-contiene-computadoras"),
+                }
+            ],
+            verifyButton: document.querySelector("validate-button"),
+            messages:{
+                onFail: "Recuerda que algunos objetos NO necesitan de una computadora para funcionar.",
+                onSuccess: "Todos los objetos fueron clasificados correctamente."
             }
-        ],
-        verifyButton: document.querySelector("validate-button"),
-        messages:{
-            onFail: "Recuerda que algunos objetos NO necesitan de una computadora para funcionar.",
-            onSuccess: "Todos los objetos fueron clasificados correctamente."
-        }
-    });
+        });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            const savedState = JSON.parse(event.data?.data);    
+            
+            if (savedState?.base) {
+                dragDivider.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+    };
+    
 </script>
 
 </html>

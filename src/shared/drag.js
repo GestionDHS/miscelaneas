@@ -40,6 +40,9 @@ export class DragDivider {
         this.messages = config.messages;
 
         config.verifyButton.addEventListener("click", () => this.validateItems());
+        const resetButton = document.querySelector(".reset-button");
+        resetButton.addEventListener("click", () => this.resetActivity());
+
 
         this.initDraggableItems();
         this.initCategories();
@@ -47,13 +50,13 @@ export class DragDivider {
 
         // Load state if available
         this.pgEvent = new PGEvent();
-        this.pgEvent.getValues();
-        console.log(this.pgEvent);
-        console.log(JSON.parse(this.pgEvent));
-        if (this.pgEvent.data.state) {
-            console.log("Previous state found:", JSON.parse(this.pgEvent.data.state));
-            this.loadState(JSON.parse(this.pgEvent.data.state));
-        }
+        // this.pgEvent.getValues();
+        // console.log(this.pgEvent);
+        // console.log(JSON.parse(this.pgEvent));
+        // if (this.pgEvent.data.state) {
+        //     console.log("Previous state found:", JSON.parse(this.pgEvent.data.state));
+        //     this.loadState(JSON.parse(this.pgEvent.data.state));
+        // }
     }
 
     
@@ -61,21 +64,21 @@ export class DragDivider {
      * Initializes the items in the base container to be draggable.
      */
     initDraggableItems() {
-        this.base.items.forEach((item, index) => {
+        this.base.items.forEach(item => {
             if (!item.element) {
                 console.error("Invalid item element", item);
                 return;
             }
-
+    
             item.element.setAttribute("draggable", true);
             item.element.classList.add("item"); // Agregar clase "item"
-            item.element.dataset.itemId = `item-${index}`; // Asignar un ID único
-
+    
             item.element.addEventListener("dragstart", (event) => {
-                event.dataTransfer.setData("text/plain", item.element.dataset.itemId);
+                event.dataTransfer.setData("text/plain", item.element.id); // Usar item.id directamente
             });
         });
     }
+    
 
     /**
      * Configures the categories to allow items to be dropped into them.
@@ -100,8 +103,9 @@ export class DragDivider {
                     return;
                 }
 
-                const draggedElement = document.querySelector(`[data-item-id="${itemId}"]`);
-
+                const draggedElement = document.querySelector(`#${itemId}`);
+                // console.log(draggedElement);
+                
                 if (draggedElement) {
                     category.element.appendChild(draggedElement);
                     this.updateState();
@@ -129,7 +133,7 @@ export class DragDivider {
                 return;
             }
 
-            const draggedElement = document.querySelector(`[data-item-id="${itemId}"]`);
+            const draggedElement = document.querySelector(`#${itemId}`);
 
             if (draggedElement) {
                 this.base.element.appendChild(draggedElement);
@@ -145,13 +149,52 @@ export class DragDivider {
      */
     validateItems() {
         const pgEvent = new PGEvent();
+        pgEvent.getValues()
+        const state = this.getState();
+        console.log(state);
+        
         pgEvent.postToPg({
             event: this.areItemsCorrect() ? "SUCCESS" : "FAILURE",
             message: this.areItemsCorrect() ? this.messages.onSuccess : this.messages.onFail,
             reasons: [],
-            state: JSON.stringify(this.getState())
+            state: JSON.stringify(state)
         });
     }
+    resetActivity() {
+        // Construir el estado inicial: todos los elementos en la base, categorías vacías
+        const initialState = {
+            base: this.base.items.map(item => item.element.id),
+            categories: this.categories.map(category => ({
+                name: category.name,
+                items: []
+            }))
+        };
+    
+        // Mover todos los elementos al contenedor base antes de limpiar las categorías
+        this.categories.forEach(category => {
+            Array.from(category.element.querySelectorAll(".item")).forEach(item => {
+                this.base.element.appendChild(item); // Mover cada elemento a la base
+            });
+        });
+    
+        // Limpiar el estado de las categorías y cargar el estado inicial
+        this.loadState(initialState);
+    
+        // Enviar un evento indicando que se ha realizado el reset
+        this.pgEvent.postToPg({
+            event: "FAILURE",
+            message: "Activity reset to the initial state.",
+            reasons: [],
+            state: JSON.stringify(initialState)
+        });
+    
+        console.log("Activity reset successfully:", initialState);
+    }
+    
+    
+    
+    
+    
 
     /**
      * Returns a boolean indicating if the items are correctly placed in the categories.
@@ -207,11 +250,12 @@ export class DragDivider {
         const categoriesState = this.categories.map(category => {
             return {
                 name: category.name,
-                items: Array.from(category.element.querySelectorAll(".item")).map(item => item.dataset.itemId)
+                items: Array.from(category.element.querySelectorAll(".item")).map(item => item.id) // Usar item.id
             };
         });
-        return { base: baseElements.map(item => item.dataset.itemId), categories: categoriesState };
+        return { base: baseElements.map(item => item.id), categories: categoriesState }; // Usar item.id
     }
+    
 
     /**
      * Load the state of the items and categories.
@@ -220,27 +264,56 @@ export class DragDivider {
      * @param {Object} state - The state to load.
      */
     loadState(state) {
-        // Move items to the base container
-        state.base.forEach(itemId => {
-            const item = document.querySelector(`[data-item-id="${itemId}"]`);
-            if (item) {
-                this.base.element.appendChild(item);
-            }
-        });
-
-        // Move items to the categories
-        state.categories.forEach(category => {
-            const categoryElement = this.categories.find(c => c.name === category.name).element;
-            category.items.forEach(itemId => {
-                const item = document.querySelector(`[data-item-id="${itemId}"]`);
-                if (item) {
-                    categoryElement.appendChild(item);
-                }
+        console.log("Loading state:", state);
+    
+        // Mover los elementos al contenedor base antes de limpiar
+        this.categories.forEach(category => {
+            Array.from(category.element.querySelectorAll(".item")).forEach(item => {
+                this.base.element.appendChild(item); // Mover los elementos al contenedor base
             });
         });
-
-        this.updateState();
+    
+        // Limpiar las categorías y restaurar su contenido
+        this.categories.forEach(category => {
+            const title = category.element.querySelector(".drop-zone-title");
+            category.element.innerHTML = ""; // Limpia el contenido de la categoría
+            if (title) {
+                category.element.appendChild(title); // Vuelve a agregar el título
+            }
+        });
+    
+        // Mover elementos al contenedor base según el estado
+        state.base.forEach(itemId => {
+            const item = document.getElementById(itemId);
+            if (item) {
+                this.base.element.appendChild(item);
+            } else {
+                console.warn(`Item with ID "${itemId}" not found in the DOM.`);
+            }
+        });
+    
+        // Mover elementos a las categorías correspondientes
+        state.categories.forEach(categoryState => {
+            const category = this.categories.find(c => c.name === categoryState.name);
+            if (category) {
+                categoryState.items.forEach(itemId => {
+                    const item = document.getElementById(itemId);
+                    if (item) {
+                        category.element.appendChild(item);
+                    } else {
+                        console.warn(`Item with ID "${itemId}" not found for category "${categoryState.name}".`);
+                    }
+                });
+            } else {
+                console.warn(`Category "${categoryState.name}" not found.`);
+            }
+        });
+    
+        console.log("State successfully loaded.");
     }
+    
+    
+    
 }
 
 /**

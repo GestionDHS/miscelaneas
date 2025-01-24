@@ -194,6 +194,7 @@
 
         <div class="footer">
             <button class="button validate-button">Save and check</button>
+            <button class="reset-button">Reset</button>
         </div>
     </div>
 </body>
@@ -201,7 +202,13 @@
 <!-- <script src="../shared/drag.js" type="module"></script> -->
 <script type="module">
     import {DragDivider} from "../shared/drag.js"
-    new DragDivider({
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragDivider = new DragDivider({
         base: {
             element: document.querySelector(".base-options"),
             items: [
@@ -247,6 +254,19 @@
             onSuccess: "All objects are placed correctly."
         }
     });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            const savedState = JSON.parse(event.data?.data);  
+            
+            if (savedState?.base) {
+                dragDivider.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+    };
+    
 </script>
 
 </html>

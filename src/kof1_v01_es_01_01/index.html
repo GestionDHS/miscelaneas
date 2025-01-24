@@ -63,7 +63,7 @@
         }
 
         .drop-zone {
-            height: 150px;
+            min-height: 150px;
             /* Ajustar la altura automáticamente */
             background: rgba(255, 255, 255, 0.457);
             border-radius: 10px;
@@ -167,66 +167,86 @@
         </div>
 
         <button class="validate-button">Guardar y comprobar</button>
+        <button class="validate-button button">Resetear</button>
     </div>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
 <script type="module">
     import { DragDivider } from "../shared/drag.js"
-    new DragDivider({
-        base: {
-            element: document.querySelector(".objects-container"),
-            items: [
-                {
-                    element: document.getElementById("object-1"),
-                    expectedCategory: "no-tecnologico",
-                },
-                {
-                    element: document.getElementById("object-2"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-3"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-4"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-5"),
-                    expectedCategory: "no-tecnologico",
-                },
-                {
-                    element: document.getElementById("object-6"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-7"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-8"),
-                    expectedCategory: "no-tecnologico",
-                },
-            ],
-        },
-        categories: [
-            {
-                name: "tecnologico",
-                element: document.getElementById("technological"),
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+    
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragDivider = new DragDivider({
+            base: {
+                element: document.querySelector(".objects-container"),
+                items: [
+                    {
+                        element: document.getElementById("object-1"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-2"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-3"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-4"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-5"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-6"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-7"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-8"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                ],
             },
-            {
-                name: "no-tecnologico",
-                element: document.getElementById("non-technological"),
+            categories: [
+                {
+                    name: "tecnologico",
+                    element: document.getElementById("technological"),
+                },
+                {
+                    name: "no-tecnologico",
+                    element: document.getElementById("non-technological"),
+                }
+            ],
+            verifyButton: document.querySelector(".validate-button"),
+            messages: {
+                onSuccess: "Todos los elementos están bien ubicados.",
+                onFail: "Hay elementos sin ubicar o en el lugar incorrecto."
             }
-        ],
-        verifyButton: document.querySelector(".validate-button"),
-        messages: {
-            onSuccess: "Todos los elementos están bien ubicados.",
-            onFail: "Hay elementos sin ubicar o en el lugar incorrecto."
-        }
-    });
+        });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            const savedState = JSON.parse(event.data?.data);    
+            
+            if (savedState?.base) {
+                dragDivider.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+    };
+    
 </script>
 
 </html>

@@ -43,7 +43,7 @@
             font-size: 16px;
         }
 
-        .validate-button {
+        .validate-button, .reset-button {
             display: block;
             margin: 10px auto 0;
             background-color: #f1ebb3  ;
@@ -63,7 +63,7 @@
         }
 
         .drop-zone {
-            height: 150px;
+            min-height: 150px;
             /* Ajustar la altura automáticamente */
             background: rgba(255, 255, 255, 0.457);
             border-radius: 10px;
@@ -123,10 +123,10 @@
     <div class="game-container">
 
         <div class="drop-zones">
-            <div class="drop-zone" id="technological">
+            <div class="drop-zone" id="tecnologico">
                 <h2 class="drop-zone-title">Technological objects</h2>
             </div>
-            <div class="drop-zone" id="non-technological">
+            <div class="drop-zone" id="no-tecnologico">
                 <h2 class="drop-zone-title">Non-technological objects</h2>
             </div>
         </div>
@@ -159,66 +159,86 @@
         </div>
 
         <button class="validate-button">Save and check</button>
+        <button class="reset-button">Reset</button>
+
     </div>
 </body>
 
-<script src="../shared/drag.js" type="module"></script>
-<script type="module">
+<!-- <script src="../shared/drag.js" type="module"></script> -->
+<script type="module" defer>
     import { DragDivider } from "../shared/drag.js"
-    new DragDivider({
-        base: {
-            element: document.querySelector(".objects-container"),
-            items: [
-                {
-                    element: document.getElementById("object-1"),
-                    expectedCategory: "no-tecnologico",
-                },
-                {
-                    element: document.getElementById("object-2"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-3"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-4"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-5"),
-                    expectedCategory: "no-tecnologico",
-                },
-                {
-                    element: document.getElementById("object-6"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-7"),
-                    expectedCategory: "tecnologico",
-                },
-                {
-                    element: document.getElementById("object-8"),
-                    expectedCategory: "no-tecnologico",
-                },
-            ],
-        },
-        categories: [
-            {
-                name: "tecnologico",
-                element: document.getElementById("technological"),
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragDivider = new DragDivider({
+            base: {
+                element: document.querySelector(".objects-container"),
+                items: [
+                    {
+                        element: document.getElementById("object-1"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-2"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-3"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-4"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-5"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-6"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-7"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-8"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                ],
             },
-            {
-                name: "no-tecnologico",
-                element: document.getElementById("non-technological"),
+            categories: [
+                {
+                    name: "tecnologico",
+                    element: document.getElementById("tecnologico"),
+                },
+                {
+                    name: "no-tecnologico",
+                    element: document.getElementById("no-tecnologico"),
+                }
+            ],
+            verifyButton: document.querySelector(".validate-button"),
+            messages: {
+                onSuccess: "All items are correctly placed.",
+                onFail: "Some items are incorrectly placed."
             }
-        ],
-        verifyButton: document.querySelector(".validate-button"),
-        messages: {
-            onSuccess: "All items are correctly placed.",
-            onFail: "Some items are incorrectly placed."
-        }
-    });
+        });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            const savedState = JSON.parse(event.data?.data);
+            
+            if (savedState?.base) {
+                dragDivider.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+    };
+
 </script>
 
 </html>

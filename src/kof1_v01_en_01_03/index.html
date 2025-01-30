@@ -159,7 +159,13 @@
 <script src="../shared/drag.js" type="module"></script>
 <script type="module">
     import { DragJoiner } from "../shared/drag.js"
-    new DragJoiner({
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragJoiner =  new DragJoiner({
         categories: [
             {
                 name: "antiguo",
@@ -215,6 +221,20 @@
             onReset: "Activity reset successfully."
         }
     });
+
+    // Listener para el mensaje del estado guardado
+    window.addEventListener('message', function (event) {
+            
+            const savedState = JSON.parse(event.data?.data);    
+            // console.log(savedState);
+            if (savedState) {
+                dragJoiner.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+
+}
 </script>
 
 </html>

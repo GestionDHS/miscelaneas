@@ -185,7 +185,7 @@ export class DragDivider {
         // Enviar un evento indicando que se ha realizado el reset
         pgEvent.postToPg({
             event: "FAILURE",
-            message: "Activity reset to the initial state.",
+            message: this.messages.onReset,
             reasons: [],
             state: JSON.stringify(initialState)
         });
@@ -347,7 +347,6 @@ export class DragJoiner {
      * @param {DragJoinerConfig} config - Initial configuration for the functionality.
      */
     constructor(config) {
-        // Set up categories, expectations, and connector properties from config
         this.categories = config.categories;
         this.expectations = config.expectations;
         this.connectorColor = config.connector.color || "#000000";
@@ -355,28 +354,32 @@ export class DragJoiner {
         this.connectorRadius = config.connector.radius || 5;
         this.onChange = config.onChange;
         this.connectorsContainer = config.connector.container;
-        this.messages = config.messages
-
-        // Clear the container for connectors
-        this.connectorsContainer.innerHTML = '';
-
-        // Initialize relations and connector ID counter
+        this.messages = config.messages;
+    
+        this.connectorsContainer.innerHTML = "";
+    
         this.relations = {};
         this.connectorIdCounter = 0;
-
-        // Initialize draggable items and connectors
+    
         this.initItems();
         this.setupDraggableItems();
-
+    
         this.pgEvent = new PGEvent();
-        this.pgEvent.getValues();
-        if (this.pgEvent.data.state) {
-            this.loadState(JSON.parse(this.pgEvent.data.state));
-        }
-
+        // this.pgEvent.getValues();
+    
+        // if (this.pgEvent.data.state) {
+        //     console.log("Loading previous state:", JSON.parse(this.pgEvent.data.state));
+        //     this.loadState(JSON.parse(this.pgEvent.data.state));
+        // }
+    
         this.verifyButton = config.verifyButton;
         this.verifyButton.addEventListener("click", () => this.validateConnections());
+    
+        // Agregar evento al botón de reinicio
+        const resetButton = document.querySelector(".reset-button");
+        resetButton.addEventListener("click", () => this.resetActivity());
     }
+    
 
     /**
      * Initialize the items by adding event listeners for dragging.
@@ -580,24 +583,39 @@ export class DragJoiner {
         );
     }
 
+    resetActivity() {
+        // Eliminar todas las conexiones
+        this.connectorsContainer.innerHTML = "";
+        this.relations = {};
+    
+        // Construir el estado inicial (sin conexiones)
+        const initialState = [];
+    
+        // Enviar el estado inicial al sistema
+        const pgEvent = new PGEvent();
+        pgEvent.getValues();
+        pgEvent.postToPg({
+            event: "FAILURE",
+            message: this.messages.onReset,
+            reasons: [],
+            state: JSON.stringify(initialState)
+        });
+    
+        // console.log("Activity reset successfully.");
+    }
+    
+    
     /**
      * Validates the connections between items.
      */
     validateConnections() {
-        // Check if all expected connections are present
-        if (Object.keys(this.relations).length === 0) {
-            console.log("Some connections are incorrect.");
-            return;
-        }
-
-        // Check if all connections are correct
         let allCorrect = true;
         const matchedExpectations = new Set();
-
+    
         for (const key in this.relations) {
             const relation = this.relations[key];
             
-            // Check if the relation is in the expected connections
+            // Verificar si la relación es correcta
             const expectedMatch = this.expectations.find(
                 pair => {
                     const isMatch = (pair[0] === relation.start.name && pair[1] === relation.target.name) ||
@@ -608,25 +626,32 @@ export class DragJoiner {
                     return isMatch;
                 }
             );
+    
             if (!expectedMatch) {
                 allCorrect = false;
                 break;
             }
         }
-
-        // Check if all expectations are met
+    
         if (matchedExpectations.size !== this.expectations.length) {
             allCorrect = false;
         }
-
+    
         const pgEvent = new PGEvent();
+        pgEvent.getValues();
+        let state = this.getState()
+        
         pgEvent.postToPg({
             event: allCorrect ? "SUCCESS" : "FAILURE",
             message: allCorrect ? this.messages.onSuccess : this.messages.onFail,
             reasons: [],
-            state: JSON.stringify(this.getState())
+            state: JSON.stringify(state) // Guardar el estado al validar
         });
+    
+
     }
+    
+
 
     getState() {
         return Object.keys(this.relations).map(key => {
@@ -637,13 +662,19 @@ export class DragJoiner {
                 connectorId: relation.connector.id
             };
         });
-    }
+    }    
 
     loadState(state) {
+        // Limpiar conexiones anteriores
+        this.connectorsContainer.innerHTML = "";
+        this.relations = {};
+        
+        console.log(state);
+        
         state.forEach(relation => {
             const startItem = this.categories.flatMap(category => category.items).find(item => item.name === relation.start);
             const targetItem = this.categories.flatMap(category => category.items).find(item => item.name === relation.target);
-
+    
             if (startItem && targetItem) {
                 const connector = document.createElement("div");
                 connector.id = relation.connectorId;
@@ -654,19 +685,20 @@ export class DragJoiner {
                 connector.style.borderRadius = `${this.connectorRadius}px`;
                 connector.style.cursor = "pointer";
                 connector.style.pointerEvents = "auto";
-
+    
                 this.connectorsContainer.appendChild(connector);
-
+    
                 this.relations[relation.connectorId] = {
                     connector: connector,
                     start: startItem,
                     target: targetItem
                 };
-
+    
                 this.updateConnectorPositionForLoadedState(connector, startItem.element, targetItem.element);
             }
         });
     }
+    
 
     updateConnectorPositionForLoadedState(connector, startElement, targetElement) {
         const startRect = startElement.getBoundingClientRect();

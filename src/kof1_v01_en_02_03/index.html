@@ -91,11 +91,18 @@
             text-align: center;
             user-select: none;
             cursor: pointer;
-
         }
+
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -152,9 +159,10 @@
         <div class="option" id="option-output">Output</div>
         <div class="option" id="option-processing">Processing</div>
     </div>
-
-    <button id="executeButton" class="validate-button">Save and check</button>
-    <button class="reset-button">Reset</button>
+    <div class="buttons">
+        <button id="executeButton" class="validate-button">Save and check</button>
+        <button class="reset-button">Reset</button>
+    </div>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
@@ -209,7 +217,8 @@
             verifyButton: document.getElementById("executeButton"),
             messages: {
                 onFail: "Some parts of the IPO model are not in the correct place.",
-                onSuccess: "Great job! The IPO model is correct."
+                onSuccess: "Great job! The IPO model is correct.",
+                onReset: "Activity reset successfully."
             }
         });
 

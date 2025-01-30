@@ -103,9 +103,16 @@
             /* Asegurar que las imágenes no tengan fondo */
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 0px auto 0;
+            width: fit-content;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -169,8 +176,10 @@
         </div>
     </div>
 
-    <button id="executeButton" class="validate-button">Save and check</button>
-    <button class="reset-button">Reset</button>
+    <div class="buttons">
+        <button id="executeButton" class="validate-button">Save and check</button>
+        <button class="reset-button">Reset</button>
+    </div>
 </body>
 
 <!-- <script src="../shared/drag.js" type="module"></script> -->
@@ -225,7 +234,8 @@
             verifyButton: document.getElementById("executeButton"),
             messages: {
                 onFail: "Some parts of the IPO model are not in the correct place.",
-                onSuccess: "Great job! The IPO model is correct."
+                onSuccess: "Great job! The IPO model is correct.",
+                onReset: "Activity reset successfully."
             }
         });
 

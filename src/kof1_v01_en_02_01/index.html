@@ -121,16 +121,18 @@
             height: 40px;
         }
 
-        .footer {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            margin-top: 30px;
+
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         .validate-button, .reset-button {
             display: block;
-            margin: 0px auto 0;
+            width: fit-content;
             background-color: #9850c0;
             color: white;
             font-size: 24px;
@@ -203,7 +205,7 @@
             </div>
         </div>
 
-        <div class="footer">
+        <div class="buttons">
             <button class="validate-button">Save and check</button>
             <button class="reset-button">Reset</button>
         </div>
@@ -267,10 +269,11 @@
                     element: document.getElementById("no-contiene-computadoras"),
                 }
             ],
-            verifyButton: document.querySelector(".button"),
+            verifyButton: document.querySelector(".validate-button"),
             messages:{
                 onFail: "There are objects that don't need a computer to work.",
-                onSuccess: "All objects are placed in the correct category."
+                onSuccess: "All objects are placed in the correct category.",
+                onReset: "Activity reset successfully."
             }
         });
 

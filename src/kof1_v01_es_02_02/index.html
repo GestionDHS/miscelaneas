@@ -74,10 +74,18 @@
             justify-content: center;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
 
         .validate-button, .reset-button {
             display: block;
-            margin: 20px auto 0;
+            width: fit-content;
             background-color: #9850c0;
             color: white;
             font-size: 24px;
@@ -134,8 +142,10 @@
         <div class="item" id="item-6">Sumar dos números</div>
     </div>
 
-    <button class="validate-button" id="executeButton">Guardar y comprobar</button>
-    <button class="reset-button">Resetear</button>
+    <div class="buttons">
+        <button class="validate-button" id="executeButton">Guardar y comprobar</button>
+        <button class="reset-button">Resetear</button>
+    </div>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
@@ -194,7 +204,8 @@
             verifyButton: document.getElementById("executeButton"),
             messages: {
                 onFail: "Algunos elementos no están en la caja correcta.",
-                onSuccess: "Todos los elementos están ubicados correctamente."
+                onSuccess: "Todos los elementos están ubicados correctamente.",
+                onReset: "La actividad fue reiniciada correctamente."
             }
         });
         // Listener para el mensaje del estado guardado

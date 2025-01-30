@@ -80,6 +80,12 @@
             margin-left: 20px;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+        }
+
         .validate-button, .reset-button {
             display: block;
             margin: 20px auto 0;
@@ -119,7 +125,7 @@
                     <div class="circle"></div>
                 </div>
                 <div style="display: flex; align-items: center;">
-                    <img id="mano" src="images/camapna.jpeg" alt="Campana" title="Campana">
+                    <img id="campana" src="images/camapna.jpeg" alt="Campana" title="Campana">
                     <div class="circle"></div>
                 </div>
             </div>
@@ -140,70 +146,93 @@
             <div id="connectorsContainer"></div>
         </div>
 
+        <div class="buttons">
+            <button class="validate-button">Guardar y comprobar</button>
+            <button class="reset-button">Resetear</button>
+        </div>
         
-        <button class="validate-button">Guardar y comprobar</button>
-        <button class="reset-button">Resetear</button>
     </div>
 
 </body>
 <script src="../shared/drag.js" type="module"></script>
 <script type="module">
     import { DragJoiner } from "../shared/drag.js"
-    new DragJoiner({
-        categories: [
-            {
-                name: "antiguo",
-                element: document.querySelector(".left"),
-                items: [
-                    {
-                        name: "Reloj Antiguo",
-                        element: document.getElementById("reloj-antiguo"),
-                    },
-                    {
-                        name: "Carro de madera",
-                        element: document.getElementById("carro-madera"),
-                    },
-                    {
-                        name: "Mano",
-                        element: document.getElementById("mano"),
-                    },
-                ],
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragJoiner = new DragJoiner({
+            categories: [
+                {
+                    name: "antiguo",
+                    element: document.querySelector(".left"),
+                    items: [
+                        {
+                            name: "Reloj Antiguo",
+                            element: document.getElementById("reloj-antiguo"),
+                        },
+                        {
+                            name: "Carro de madera",
+                            element: document.getElementById("carro-madera"),
+                        },
+                        {
+                            name: "Campana",
+                            element: document.getElementById("campana"),
+                        },
+                    ],
+                },
+                {
+                    name: "moderno",
+                    element: document.querySelector(".right"),
+                    items: [
+                        {
+                            name: "Auto moderno",
+                            element: document.getElementById("auto-moderno"),
+                        },
+                        {
+                            name: "Smartphone",
+                            element: document.getElementById("smartphone"),
+                        },
+                        {
+                            name: "Timbre",
+                            element: document.getElementById("timbre"),
+                        },
+                    ],
+                },
+            ],
+            expectations: [
+                ["Reloj Antiguo", "Smartphone"],
+                ["Carro de madera", "Auto moderno"],
+                ["Campana", "Timbre"],
+            ],
+            connector: {
+                container: document.getElementById("connectorsContainer"),
+                color: "#8383fd",
+                radius: 10,
             },
-            {
-                name: "moderno",
-                element: document.querySelector(".right"),
-                items: [
-                    {
-                        name: "Auto moderno",
-                        element: document.getElementById("auto-moderno"),
-                    },
-                    {
-                        name: "Smartphone",
-                        element: document.getElementById("smartphone"),
-                    },
-                    {
-                        name: "Timbre",
-                        element: document.getElementById("timbre"),
-                    },
-                ],
-            },
-        ],
-        expectations: [
-            ["Reloj Antiguo", "Smartphone"],
-            ["Carro de madera", "Auto moderno"],
-            ["Mano", "Timbre"],
-        ],
-        connector: {
-            container: document.getElementById("connectorsContainer"),
-            color: "#8383fd",
-            radius: 10,
-        },
-        verifyButton: document.querySelector(".validate-button"),
-        messages: {
-            onSuccess: "Todas las conexiones son correctas.",
-            onFail: "Revisa las conexiones. Algunas son incorrectas."
-        }
-    });
+            verifyButton: document.querySelector(".validate-button"),
+            messages: {
+                onSuccess: "Todas las conexiones son correctas.",
+                onFail: "Revisa las conexiones. Algunas son incorrectas.",
+                onReset: "La actividad fue reiniciada a su estado original."
+            }
+        });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            
+            const savedState = JSON.parse(event.data?.data);    
+            // console.log(savedState);
+            if (savedState) {
+                dragJoiner.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+
+    }
 </script>
 
 </html>

@@ -93,9 +93,17 @@
             cursor: pointer;
 
         }
+
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -107,20 +115,6 @@
             line-height: 60px;
             padding: 10px;
         }
-
-        /* #executeButton {
-            padding: 20px 40px;
-            font-size: 24px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        #executeButton:hover {
-            background-color: #45a049;
-        } */
 
         .title {
             display: flex;
@@ -165,8 +159,10 @@
         <div class="option" id="option-processing">Procesamiento</div>
     </div>
 
-    <button id="executeButton" class="validate-button">Guardar y comprobar</button>
-    <button class="reset-button">Resetear</button>
+    <div class="buttons">
+        <button id="executeButton" class="validate-button">Guardar y comprobar</button>
+        <button class="reset-button">Resetear</button>
+    </div>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
@@ -222,7 +218,8 @@
             verifyButton: document.getElementById("executeButton"),
             messages: {
                 onFail: "Hay algunas partes del modelo IPO que no están en lugar correcto.",
-                onSuccess: "¡Gran trabajo! El modelo IPO es correcto."
+                onSuccess: "¡Gran trabajo! El modelo IPO es correcto.",
+                onReset: "La actividad fue reiniciada correctamente."
             }
     });
 

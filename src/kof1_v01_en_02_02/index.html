@@ -74,10 +74,17 @@
             justify-content: center;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
 
         .validate-button, .reset-button {
             display: block;
-            margin: 20px auto 0;
+            width: fit-content;
             background-color: #9850c0;
             color: white;
             font-size: 24px;
@@ -134,8 +141,10 @@
         <div class="item" id="item-6">Sum two numbers</div>
     </div>
 
-    <button class="validate-button" id="executeButton">Save and check</button>
-    <button class="reset-button">Reset</button>
+    <div class="buttons">
+        <button class="validate-button" id="executeButton">Save and check</button>
+        <button class="reset-button">Reset</button>
+    </div>
 </body>
 
 <script src="../shared/drag.js" type="module"></script>
@@ -194,7 +203,8 @@
             verifyButton: document.getElementById("executeButton"),
             messages: {
                 onSuccess: "All items are correctly placed.",
-                onFail: "Some items are incorrectly placed."
+                onFail: "Some items are incorrectly placed.",
+                onReset: "Activity reset successfully."
             }
         });
 

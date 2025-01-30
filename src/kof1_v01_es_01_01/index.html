@@ -42,10 +42,18 @@
             color: #666;
             font-size: 16px;
         }
+        
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
 
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
+            /* margin: 10px auto 0; */
             background-color: #f1ebb3  ;
             /* color: white; */
             font-size: 20px;
@@ -165,9 +173,11 @@
                 <img src="images/vaca.png" alt="Pluma" width="80" height="80" title="Vaca">
             </div>
         </div>
-
-        <button class="validate-button">Guardar y comprobar</button>
-        <button class="reset-button">Resetear</button>
+        
+        <div class="buttons">
+            <button class="validate-button">Guardar y comprobar</button>
+            <button class="reset-button">Resetear</button>
+        </div>
     </div>
 </body>
 
@@ -231,7 +241,8 @@
             verifyButton: document.querySelector(".validate-button"),
             messages: {
                 onSuccess: "Todos los elementos están bien ubicados.",
-                onFail: "Hay elementos sin ubicar o en el lugar incorrecto."
+                onFail: "Hay elementos sin ubicar o en el lugar incorrecto.",
+                onReset: "La actividad fue reiniciada correctamente."
             }
         });
 

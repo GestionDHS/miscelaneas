@@ -43,9 +43,16 @@
             font-size: 16px;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
             background-color: #f1ebb3  ;
             /* color: white; */
             font-size: 20px;
@@ -158,8 +165,11 @@
             </div>
         </div>
 
-        <button class="validate-button">Save and check</button>
-        <button class="reset-button">Reset</button>
+        <div class="buttons">
+            <button class="validate-button">Save and check</button>
+            <button class="reset-button">Reset</button>
+
+        </div>
 
     </div>
 </body>
@@ -223,7 +233,8 @@
             verifyButton: document.querySelector(".validate-button"),
             messages: {
                 onSuccess: "All items are correctly placed.",
-                onFail: "Some items are incorrectly placed."
+                onFail: "Some items are incorrectly placed.",
+                onReset: "Activity reset successfully."
             }
         });
 

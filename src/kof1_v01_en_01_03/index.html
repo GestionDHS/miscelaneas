@@ -80,9 +80,16 @@
             margin-left: 20px;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 20px auto 0;
+            width: fit-content;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -140,8 +147,11 @@
             <div id="connectorsContainer"></div>
         </div>
 
-        <button class="validate-button">Save and check</button>
-        <button class="reset-button">Reset</button>
+        <div class="buttons">
+            <button class="validate-button">Save and check</button>
+            <button class="reset-button">Reset</button>
+
+        </div>
         
     </div>
 
@@ -201,7 +211,8 @@
         verifyButton: document.querySelector(".validate-button"),
         messages: {
             onSuccess: "All connections are correct.",
-            onFail: "Check the connections. Some are incorrect."
+            onFail: "Check the connections. Some are incorrect.",
+            onReset: "Activity reset successfully."
         }
     });
 </script>

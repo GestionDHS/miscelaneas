@@ -42,10 +42,18 @@
             color: #666;
             font-size: 16px;
         }
+        
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
 
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
+            /* margin: 10px auto 0; */
             background-color: #f1ebb3  ;
             /* color: white; */
             font-size: 20px;
@@ -117,10 +125,10 @@
         }
        
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0101-b1c55f3f.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0101-3bbf093b.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5939c3c6.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
 </head>
 
 <body>
@@ -169,9 +177,11 @@
                 <img src="/miscelaneas/assets/vaca-a36f6d64.png" alt="Pluma" width="80" height="80" title="Vaca">
             </div>
         </div>
-
-        <button class="validate-button">Guardar y comprobar</button>
-        <button class="reset-button">Resetear</button>
+        
+        <div class="buttons">
+            <button class="validate-button">Guardar y comprobar</button>
+            <button class="reset-button">Resetear</button>
+        </div>
     </div>
 </body>
 

@@ -74,10 +74,17 @@
             justify-content: center;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
 
         .validate-button, .reset-button {
             display: block;
-            margin: 20px auto 0;
+            width: fit-content;
             background-color: #9850c0;
             color: white;
             font-size: 24px;
@@ -100,10 +107,10 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0202-457d36ce.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0202-c97c6361.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5939c3c6.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
 </head>
 
 <body>
@@ -138,8 +145,10 @@
         <div class="item" id="item-6">Sum two numbers</div>
     </div>
 
-    <button class="validate-button" id="executeButton">Save and check</button>
-    <button class="reset-button">Reset</button>
+    <div class="buttons">
+        <button class="validate-button" id="executeButton">Save and check</button>
+        <button class="reset-button">Reset</button>
+    </div>
 </body>
 
 

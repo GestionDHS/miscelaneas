@@ -120,16 +120,17 @@
             height: 40px;
         }
 
-        .footer {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            margin-top: 30px;
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         .validate-button, .reset-button {
             display: block;
-            margin: 0px auto 0;
+            width: fit-content;
             background-color: #9850c0;
             color: white;
             font-size: 24px;
@@ -150,10 +151,10 @@
             background-image: url('/miscelaneas/assets/bg2-1115cd1c.png');
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0201-5d787138.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0201-5a94203f.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5939c3c6.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
 </head>
 
 <body>
@@ -206,7 +207,7 @@
             </div>
         </div>
 
-        <div class="footer">
+        <div class="buttons">
             <button class="validate-button">Guardar y comprobar</button>
             <button class="reset-button">Resetear</button>
         </div>

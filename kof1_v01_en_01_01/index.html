@@ -43,9 +43,16 @@
             font-size: 16px;
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 10px auto 0;
+            width: fit-content;
             background-color: #f1ebb3  ;
             /* color: white; */
             font-size: 20px;
@@ -117,10 +124,10 @@
         }
 
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0101-c993c35a.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01en0101-e56768f8.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5939c3c6.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
 </head>
 
 <body>
@@ -162,8 +169,11 @@
             </div>
         </div>
 
-        <button class="validate-button">Save and check</button>
-        <button class="reset-button">Reset</button>
+        <div class="buttons">
+            <button class="validate-button">Save and check</button>
+            <button class="reset-button">Reset</button>
+
+        </div>
 
     </div>
 </body>

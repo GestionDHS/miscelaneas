@@ -103,9 +103,16 @@
             /* Asegurar que las imágenes no tengan fondo */
         }
 
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
         .validate-button, .reset-button {
             display: block;
-            margin: 0px auto 0;
+            width: fit-content;
             background-color: #FFA500;
             color: white;
             font-size: 24px;
@@ -134,10 +141,10 @@
             padding: 10px;
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0302-f15df083.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof1v01es0302-37bf06d2.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
-  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5939c3c6.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
 </head>
 
 <body>
@@ -173,9 +180,10 @@
             
         </div>
     </div>
-
-    <button id="executeButton" class="validate-button">Guardar y comprobar</button>
-    <button class="reset-button">Resetear</button>
+    <div class="buttons">
+        <button id="executeButton" class="validate-button">Guardar y comprobar</button>
+        <button class="reset-button">Resetear</button>
+    </div>
 </body>
 
 <!-- <script src="../shared/drag.js" type="module"></script> -->

@@ -670,7 +670,7 @@ export class DragJoiner {
         this.connectorsContainer.innerHTML = "";
         this.relations = {};
         
-        console.log(state);
+        // console.log(state);
         
         state.forEach(relation => {
             const startItem = this.categories.flatMap(category => category.items).find(item => item.name === relation.start);

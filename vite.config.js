@@ -60,7 +60,13 @@ export default defineConfig({
         casitadigital07EN: resolve(root, 'casita_digital_07_en/index.html'),
         casitadigital08EN: resolve(root, 'casita_digital_08_en/index.html'),
         casitacomplejaEN: resolve(root, 'casitacompleja_en/index.html'),
-        // 
+
+        // IAP es
+        iaprimaria2ES: resolve(root, 'IAP_es_02_02/index.html'),
+        iaprimaria4ES: resolve(root, 'IAP_es_04_01/index.html'),
+
+        // IAP en
+        iaprimariaEN: resolve(root, 'IAP_en_02_02/index.html'),
       },
     },
   },

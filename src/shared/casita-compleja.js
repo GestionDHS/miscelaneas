@@ -345,10 +345,13 @@ const CasitaCompleja = (params) => {
 
     let binaryArray = [];
     pgEvent.getValues();
-    binaryArray = pgEvent.data.state?.selectors?.match(/.{1,2}/g)
-        || generator.wordToBinaryString(params.initialWord?.toUpperCase() 
-        || expectedWord.replace(/[A-Z]/g, "?")).match(/.{1,2}/g);
-
+    const bitsNeeded = generator.getBitsNeeded();
+    binaryArray = (
+      pgEvent.data.state?.selectors ||
+      generator.wordToBinaryString(
+        params.initialWord?.toUpperCase() || expectedWord.replace(/[A-Z]/g, "?")
+      )
+    ).match(new RegExp(`.{1,${bitsNeeded}}`, "g"));
     generator.createUI(params.container, params.preview, binaryArray, evaluateWord);
     generator.setBinarySelects(params.container, binaryArray);
     generator.updatePreview(params.preview, binaryArray);

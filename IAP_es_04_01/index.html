@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kof1_v01_es_02_02</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-height: fit-content;
+        }
+
+
+        .container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 30px;
+            text-align: center;
+        }
+
+        .container img {
+            display: none;
+        }
+
+        .text-box {
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 2em;
+            /* width: 100%; */
+            /* margin:100px; */
+        }
+
+        .text-box.pink {
+            background-color: #d147a3;
+            color: white;
+        }
+
+        .text-box.yellow {
+            background-color: #f5e041;
+        }
+
+        .text-box.green {
+            background-color: #47d16b;
+            color: white;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .item {
+            /* background-color: #ccc; */
+            border-radius: 10px;
+            margin: 10px auto;
+            width: 200px;
+            /* height: 200px; */
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item img{
+            width: 100%;
+        }
+
+        .drop-box {
+            /* border: 2px dashed black; */
+            border-radius: 10px;
+            margin: 10px;
+            height: 300px;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            justify-content: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #drop-box-1{
+            background-image: url("/miscelaneas/assets/plasticos-8bd61beb.png");
+        }
+
+        #drop-box-2{
+            background-image: url("/miscelaneas/assets/papeles-52f6cc7a.png");
+        }
+
+        #drop-box-3{
+            background-image: url("/miscelaneas/assets/organicos-30d14dba.png");
+        }
+
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
+
+        .validate-button, .reset-button {
+            display: block;
+            width: fit-content;
+            background-color: #9850c0;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 60px;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container div {
+                flex: 1 1 100%;
+            }
+
+            .text-box {
+                width: 60%;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/miscelaneas/assets/iaprimaria4ES-8972809a.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-cafd3ea3.js">
+</head>
+
+<body>
+    <div class="container">
+        <div class="drop-zone">
+            
+            <div class="drop-box" id="drop-box-1">
+                <!-- <img src="images/pc.png" alt="PC Image 1" id="c1"> -->
+            </div>
+        </div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-2">
+                <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
+            </div>
+        </div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-3">
+                <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
+            </div>
+        </div>
+        <!-- <div class="text-box pink"></div>
+        <div class="text-box yellow"></div>
+        <div class="text-box green"></div> -->
+    </div>
+
+    <div class="options">
+            <img src="/miscelaneas/assets/organicos 11-1834dcb9.jpg" alt="" class="item" id="item-1">
+
+            <img src="/miscelaneas/assets/papel 11-f193d46e.jpg" alt="" class="item" id="item-2">
+
+            <img src="/miscelaneas/assets/plastico 13-2de114f3.jpeg" alt="" class="item" id="item-3">
+
+            <img src="/miscelaneas/assets/organicos 12-adaf643d.jpg" alt="" class="item" id="item-4">
+
+            <img src="/miscelaneas/assets/papel 14-b5379b59.jpeg" alt="" class="item" id="item-5">
+
+            <img src="/miscelaneas/assets/papel 13-ea56050b.jpg" alt="" class="item" id="item-6">
+
+    </div>
+
+    <div class="buttons">
+        <button class="validate-button" id="executeButton">Save and check</button>
+        <button class="reset-button">Reset</button>
+    </div>
+</body>
+
+
+
+
+</html>

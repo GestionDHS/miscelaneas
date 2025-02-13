@@ -286,82 +286,141 @@ class CasitaDigitalCompleja {
  * @param {String} params.successMessage - The success message to show when the user finds the word. If not provided, a default message will be used.
  * @param {String} params.failureMessage - The failure message to show when the user doesn't find the word. If not provided, a default message will be used.
  */
-const CasitaCompleja = (params) => {
+// --- Funciones de espera del mensaje del backend ---
+const isValidInitialEvent = (event) => {
+    return (
+      event?.data?.data &&
+      event?.data?.type === "init" &&
+      typeof event.data.data === "string"
+    );
+  };
+  
+  async function waitForMessage(timeout = 5000) {
+    return new Promise((resolve) => {
+      const timer = setTimeout(() => {
+        window.removeEventListener("message", handler);
+        resolve(null); // Resuelve con null si ocurre el timeout
+      }, timeout);
+      function handler(event) {
+        if (isValidInitialEvent(event)) {
+          clearTimeout(timer);
+          window.removeEventListener("message", handler);
+          resolve(event.data.data); // Resuelve con la información recibida
+        }
+      }
+      window.addEventListener("message", handler);
+    });
+  }
+  
+  // --- Inicialización de la actividad ---
+  const CasitaCompleja = async (params) => {
     const defaultSuccessMessage = "¡Bien hecho! Has encontrado la letra correcta.";
     const defaultFailureMessage = "¡Oh no! Esa no es la palabra correcta. Inténtalo de nuevo.";
-
+  
     const availableChars = [
-        "?", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-        "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+      "?", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+      "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
     ];
     const expectedWord = params.expectedWord.toUpperCase();
     const pgEvent = new PGEvent();
     let hasSucceded = false;
-
+  
     const generator = new CasitaDigitalCompleja(expectedWord, availableChars);
-
     const calculateResults = (allSelects) => {
-        const bitsNeeded = generator.getBitsNeeded();
-        return Array.from({ length: Math.ceil(allSelects.length / bitsNeeded) }, (_, i) => {
-            const group = Array.from(allSelects).slice(i * bitsNeeded, (i + 1) * bitsNeeded);
-            const actualChar = generator.binaryStringToChar(group.map(select => select.value).join(""));
-            return {
-                index: (i + 1).toString(),
-                htmlElement: group[0].closest(".binary-select__char"),
-                isOK: actualChar === expectedWord[i],
-                actualChar: actualChar,
-            };
-        });
+      const bitsNeeded = generator.getBitsNeeded();
+      return Array.from({ length: Math.ceil(allSelects.length / bitsNeeded) }, (_, i) => {
+        const group = Array.from(allSelects).slice(i * bitsNeeded, (i + 1) * bitsNeeded);
+        const actualChar = generator.binaryStringToChar(
+          group.map(select => select.value).join("")
+        );
+        return {
+          index: (i + 1).toString(),
+          htmlElement: group[0].closest(".binary-select__char"),
+          isOK: actualChar === expectedWord[i],
+          actualChar: actualChar,
+        };
+      });
     };
-
-    const evaluateWord = (binaryArray) => {
-        const binaryString = binaryArray.flat().join("");
-        const obtainedWord = generator.binaryStringToWord(binaryString);
-
-        if (params.onHouseChange) {
-            const allSelects = params.container.querySelectorAll(".binary-select__select");
-            const results = calculateResults(allSelects);
-            params.onHouseChange(results);
-        }
-
-        if (params.isFreeMode) {
-            generator.updatePreview(params.preview, binaryArray);
-            return;
-        }
-
-        const event = obtainedWord !== expectedWord ? "FAILURE" : "SUCCESS";
-        const message = obtainedWord !== expectedWord
-            ? params.failureMessage || defaultFailureMessage
-            : params.successMessage || defaultSuccessMessage;
-        pgEvent.postToPg({
-            event, message,
-            reasons: [],
-            state: JSON.stringify({ selectors: binaryString })
-        });
-
-        hasSucceded = obtainedWord === expectedWord;
-        generator.updatePreview(params.preview, binaryArray);
-    };
-
-    let binaryArray = [];
-    pgEvent.getValues();
-    const bitsNeeded = generator.getBitsNeeded();
-    binaryArray = (
-      pgEvent.data.state?.selectors ||
-      generator.wordToBinaryString(
-        params.initialWord?.toUpperCase() || expectedWord.replace(/[A-Z]/g, "?")
-      )
-    ).match(new RegExp(`.{1,${bitsNeeded}}`, "g"));
-    generator.createUI(params.container, params.preview, binaryArray, evaluateWord);
-    generator.setBinarySelects(params.container, binaryArray);
-    generator.updatePreview(params.preview, binaryArray);
-
-    if (params.onHouseChange) {
+  
+    // Función que se llama cada vez que el usuario completa un char
+    const evaluateWord = async (binaryArray) => {
+      console.log(binaryArray);
+      const binaryString = binaryArray.flat().join("");
+      const obtainedWord = generator.binaryStringToWord(binaryString);
+  
+      if (params.onHouseChange) {
         const allSelects = params.container.querySelectorAll(".binary-select__select");
         const results = calculateResults(allSelects);
         params.onHouseChange(results);
+      }
+  
+      // En free mode solo se actualiza la preview
+      if (params.isFreeMode) {
+        generator.updatePreview(params.preview, binaryArray);
+        return;
+      }
+  
+      const eventType = obtainedWord !== expectedWord ? "FAILURE" : "SUCCESS";
+      const message = obtainedWord !== expectedWord
+        ? params.failureMessage || defaultFailureMessage
+        : params.successMessage || defaultSuccessMessage;
+      pgEvent.postToPg({
+        event: eventType,
+        message,
+        reasons: [],
+        state: JSON.stringify({ selectors: binaryString })
+      });
+  
+      hasSucceded = obtainedWord === expectedWord;
+      generator.updatePreview(params.preview, binaryArray);
+    };
+  
+    pgEvent.getValues();
+    // Espera al mensaje asíncrono del backend antes de generar la UI
+    let savedState = await waitForMessage();
+    let binaryArray;
+  
+    if (savedState) {
+      // Si se recibió un dato, lo parseamos
+      let parsedState = JSON.parse(savedState);
+      // Si el dato guardado es válido (distinto de "not-started")
+      if (parsedState.data !== "not-started" && parsedState.selectors) {
+        const binaryStringData = parsedState.selectors;
+        const bitsNeeded = generator.getBitsNeeded();
+        binaryArray = [];
+        // Reconstruir el array a partir de la cadena guardada
+        for (let i = 0; i < binaryStringData.length; i += bitsNeeded) {
+          const group = binaryStringData.substring(i, i + bitsNeeded).split('');
+          binaryArray.push(group);
+        }
+      }
     }
-};
+  
+    // Si no se recibió estado o se recibió "not-started", usar el estado por defecto
+    if (!binaryArray) {
+      const defaultBinaryString = generator.wordToBinaryString(
+        params.initialWord?.toUpperCase() || expectedWord.replace(/[A-Z]/g, "?")
+      );
+      const bitsNeeded = generator.getBitsNeeded();
+      binaryArray = [];
+      for (let i = 0; i < defaultBinaryString.length; i += bitsNeeded) {
+        const group = defaultBinaryString.slice(i, i + bitsNeeded).split('');
+        binaryArray.push(group);
+      }
+    }
+  
+    // Construir la UI usando el array resultante (ya sea desde estado guardado o por defecto)
+    generator.createUI(params.container, params.preview, binaryArray, evaluateWord);
+    generator.setBinarySelects(params.container, binaryArray);
+    generator.updatePreview(params.preview, binaryArray);
+  
+    if (params.onHouseChange) {
+      const allSelects = params.container.querySelectorAll(".binary-select__select");
+      const results = calculateResults(allSelects);
+      params.onHouseChange(results);
+    }
+  };
+  
 
 
 /**

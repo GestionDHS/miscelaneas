@@ -65,6 +65,10 @@ export default defineConfig({
         iaprimaria2ES: resolve(root, 'IAP_es_02_02/index.html'),
         iaprimaria4ES: resolve(root, 'IAP_es_04_01/index.html'),
 
+        //IAS es
+
+        iasecundaria7Es: resolve(root, 'IAS_es_07_01/index.html'),
+
         // IAP en
         iaprimariaEN: resolve(root, 'IAP_en_02_02/index.html'),
       },

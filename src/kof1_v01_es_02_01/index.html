@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             background-color: #eaf4ff;
+            max-height: fit-content;
         }
 
         .main-container {
@@ -42,8 +43,7 @@
             border: 2px dashed #000;
         }
 
-        .base-options,
-        .objects {
+        .base-options {
             display: flex;
             flex-wrap: wrap;
             gap: 60px;
@@ -59,15 +59,10 @@
         }
 
         .category {
-            height: 200px;
+            
             padding: 20px;
             background-color: #fff8e1;
             border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 15px;
             margin-right: 20px;
             background-size: cover;
             background-position: center;
@@ -112,6 +107,16 @@
             border-radius: 20px;
         }
 
+        .category .objects{
+            margin-top: 20px;
+            min-height: 200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content: space-evenly;
+            gap: 20px;
+        }
+
         .object {
             display: flex;
             flex-direction: column;
@@ -119,6 +124,7 @@
             width: 40px;
             height: 40px;
         }
+
 
         .buttons{
             display: grid;
@@ -185,12 +191,12 @@
             </div>
 
             <div class="categories">
-                <div class="category" id="contiene-computadoras">
+                <div class="category">
                     <div class="header">Tienen computadoras</div>
                     <div class="objects" id="contiene-computadoras"></div>
                 </div>
 
-                <div class="category" id="no-contiene-computadoras">
+                <div class="category">
                     <div class="header">NO tienen computadoras</div>
                     <div class="objects" id="no-contiene-computadoras"></div>
                 </div>
@@ -223,7 +229,7 @@
                     },
                     {
                         element: document.getElementById("avion"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("ventilador"),
@@ -239,11 +245,11 @@
                     },
                     {
                         element: document.getElementById("microondas"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("dron"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("consola"),

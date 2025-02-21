@@ -43,8 +43,7 @@
             border: 2px dashed #000;
         }
 
-        .base-options,
-        .objects {
+        .base-options {
             display: flex;
             flex-wrap: wrap;
             gap: 60px;
@@ -60,15 +59,10 @@
         }
 
         .category {
-            height: 200px;
+            
             padding: 20px;
             background-color: #fff8e1;
             border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 15px;
             margin-right: 20px;
             background-size: cover;
             background-position: center;
@@ -111,6 +105,16 @@
             background-color: #ffcc00;
             padding: 5px 15px;
             border-radius: 20px;
+        }
+
+        .category .objects{
+            margin-top: 20px;
+            min-height: 200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content: space-evenly;
+            gap: 20px;
         }
 
         .object {
@@ -187,12 +191,12 @@
             </div>
 
             <div class="categories">
-                <div class="category" id="contiene-computadoras">
+                <div class="category">
                     <div class="header">Have computers</div>
                     <div class="objects" id="contiene-computadoras"></div>
                 </div>
 
-                <div class="category" id="no-contiene-computadoras">
+                <div class="category">
                     <div class="header">Don't have computers</div>
                     <div class="objects" id="no-contiene-computadoras"></div>
                 </div>
@@ -225,7 +229,7 @@
                     },
                     {
                         element: document.getElementById("avion"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("ventilador"),
@@ -241,11 +245,11 @@
                     },
                     {
                         element: document.getElementById("microondas"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("dron"),
-                        expectedCategory: "no-contiene-computadoras",
+                        expectedCategory: "contiene-computadoras",
                     },
                     {
                         element: document.getElementById("consola"),

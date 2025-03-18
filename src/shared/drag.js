@@ -70,19 +70,23 @@ export class DragDivider {
                 console.error("Invalid item element", item);
                 return;
             }
-    
+
             item.element.setAttribute("draggable", true);
-            item.element.classList.add("item"); // Agregar clase "item"
-    
+            item.element.classList.add("item");
+
             item.element.addEventListener("dragstart", (event) => {
-                event.dataTransfer.setData("text/plain", item.element.id); // Usar item.id directamente
+                event.dataTransfer.setData("text/plain", item.element.id);
             });
+
+            // Touch event handlers for tablets
+            item.element.addEventListener("touchstart", (event) => this.handleTouchStart(event, item.element));
+            item.element.addEventListener("touchmove", (event) => this.handleTouchMove(event));
+            item.element.addEventListener("touchend", (event) => this.handleTouchEnd(event));
         });
     }
-    
 
     /**
-     * Configures the categories to allow items to be dropped into them.
+     * Configures the categories for dropping items.
      */
     initCategories() {
         this.categories.forEach(category => {
@@ -91,58 +95,79 @@ export class DragDivider {
                 return;
             }
 
-            category.element.addEventListener("dragover", (event) => {
-                event.preventDefault(); // Allow the drop
-            });
-
-            category.element.addEventListener("drop", (event) => {
-                event.preventDefault();
-                const itemId = event.dataTransfer.getData("text/plain");
-
-                if (!itemId) {
-                    console.error("No data received on drop event");
-                    return;
-                }
-
-                const draggedElement = document.querySelector(`#${itemId}`);
-                // console.log(draggedElement);
-                
-                if (draggedElement) {
-                    category.element.appendChild(draggedElement);
-                    this.updateState();
-                } else {
-                    console.warn("Dragged element not found.");
-                }
-            });
+            category.element.addEventListener("dragover", (event) => event.preventDefault());
+            category.element.addEventListener("drop", (event) => this.handleDrop(event, category));
         });
     }
 
     /**
-     * Configures the base container to allow items to be returned to it.
+     * Configures the base container for returning items.
      */
     initBase() {
-        this.base.element.addEventListener("dragover", (event) => {
-            event.preventDefault(); // Allow the drop
-        });
+        this.base.element.addEventListener("dragover", (event) => event.preventDefault());
+        this.base.element.addEventListener("drop", (event) => this.handleDrop(event, this.base));
+    }
 
-        this.base.element.addEventListener("drop", (event) => {
-            event.preventDefault();
-            const itemId = event.dataTransfer.getData("text/plain");
+    /**
+     * Handles drop events.
+     */
+    handleDrop(event, target) {
+        event.preventDefault();
+        const itemId = event.dataTransfer.getData("text/plain");
+        const draggedElement = document.querySelector(`#${itemId}`);
+        if (draggedElement) {
+            target.element.appendChild(draggedElement);
+            this.updateState();
+        }
+    }
 
-            if (!itemId) {
-                console.error("No data received on drop event");
-                return;
-            }
+    /**
+     * Handles touch start events.
+     */
+    handleTouchStart(event, element) {
+        this.draggedItem = element;
+        this.draggedItem.style.opacity = "0.5";
+        const touch = event.touches[0];
+        this.draggedItem.startX = touch.clientX;
+        this.draggedItem.startY = touch.clientY;
+    }
 
-            const draggedElement = document.querySelector(`#${itemId}`);
+    /**
+     * Handles touch move events.
+     */
+    handleTouchMove(event) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        this.draggedItem.style.position = "absolute";
+        this.draggedItem.style.left = `${touch.clientX}px`;
+        this.draggedItem.style.top = `${touch.clientY}px`;
+    }
 
-            if (draggedElement) {
-                this.base.element.appendChild(draggedElement);
-                this.updateState();
+    /**
+     * Handles touch end events.
+     */
+    handleTouchEnd(event) {
+        const touch = event.changedTouches[0];
+        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        
+        if (dropTarget) {
+            let validCategory = this.categories.find(category => 
+                category.element === dropTarget || dropTarget.closest(`[id='${category.element.id}']`)
+                
+            );
+            // console.log(validCategory);
+            
+            if (validCategory) {
+                validCategory.element.appendChild(this.draggedItem);
             } else {
-                console.warn("Dragged element not found.");
+                this.base.element.appendChild(this.draggedItem);
             }
-        });
+        }
+        
+        this.draggedItem.style.opacity = "1";
+        this.draggedItem.style.position = "static";
+        this.draggedItem = null;
+        this.updateState();
     }
 
     /**
@@ -390,10 +415,12 @@ export class DragJoiner {
             category.items.forEach(item => {
                 if (item.element) {
                     item.element.addEventListener("mousedown", (e) => this.onItemDragStart(e, item));
+                    item.element.addEventListener("touchstart", (e) => this.onItemDragStart(e, item));
                 }
             });
         });
     }
+
 
     /**
      * Set up mouse move and mouse up events for dragging connectors.
@@ -402,19 +429,28 @@ export class DragJoiner {
         this.connector = null;
         this.startItem = null;
 
-        // Mousemove event for updating connector position while dragging
         document.addEventListener("mousemove", (e) => {
             if (this.connector) {
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-                this.updateConnectorPosition(mouseX, mouseY);
+                this.updateConnectorPosition(e.clientX, e.clientY);
+            }
+        });
+        
+        document.addEventListener("mouseup", (e) => {
+            if (this.connector) {
+                this.finalizeConnector(e);
+            }
+        });
+        
+        document.addEventListener("touchmove", (e) => {
+            if (this.connector) {
+                const touch = e.touches[0];
+                this.updateConnectorPosition(touch.clientX, touch.clientY);
             }
         });
 
-        // Mouseup event to finalize the connection of the dragged item
-        document.addEventListener("mouseup", () => {
+        document.addEventListener("touchend", (e) => {
             if (this.connector) {
-                this.finalizeConnector();
+                this.finalizeConnector(e);
             }
         });
     }
@@ -425,44 +461,49 @@ export class DragJoiner {
      * @param {ItemConfig} item - The item being dragged.
      */
     onItemDragStart(e, item) {
-        e.preventDefault(); // Prevent default behavior
-        this.startItem = item; // Store the starting item
+        e.preventDefault();
+        this.startItem = item;
+        
+        const posX = e.touches ? e.touches[0].clientX : e.clientX;
+        const posY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        // Store mouse coordinates as the starting point for the connector
-        const startX = e.clientX;
-        const startY = e.clientY;
-
-        // Create a new connector element
         this.connector = document.createElement("div");
-        const connectorId = `connector-${this.connectorIdCounter++}`; // Unique ID for each connector
+        const connectorId = `connector-${this.connectorIdCounter++}`;
         this.connector.id = connectorId;
 
-        // Set styles for the connector
         this.connector.style.position = "absolute";
-        this.connector.style.left = `${startX}px`;
-        this.connector.style.top = `${startY}px`;
-        this.connector.style.width = `${this.connectorWidth}px`;
-        this.connector.style.height = `${this.connectorWidth}px`;
+        this.connector.style.left = `${posX}px`;
+        this.connector.style.top = `${posY}px`;
+        this.connector.style.width = "2px";
+        this.connector.style.height = "2px";
         this.connector.style.backgroundColor = this.connectorColor;
         this.connector.style.borderRadius = `${this.connectorRadius}px`;
-        this.connector.style.cursor = "pointer";
-        this.connector.style.pointerEvents = "auto";
 
-        // Store relation key for the connector
         this.connector.dataset.relationKey = `${this.startItem.name}-${connectorId}`;
 
-        // Store initial click position for the connector
-        this.connector.startX = startX;
-        this.connector.startY = startY;
+        this.connector.startX = posX;
+        this.connector.startY = posY;
 
-        // Add click event to remove the connector and its relation
-        this.connector.addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevent the click event from propagating
-            this.removeConnectorAndRelation(connectorId);
-        });
-
-        // Append the connector to the container
         this.connectorsContainer.appendChild(this.connector);
+    }
+
+    updateConnectorPosition(x, y) {
+        if (!this.connector) return;
+
+        const startX = this.connector.startX;
+        const startY = this.connector.startY;
+        
+        const width = x - startX;
+        const height = y - startY;
+        
+        const angle = Math.atan2(height, width) * 180 / Math.PI;
+
+        this.connector.style.width = `${Math.abs(width)}px`;
+        this.connector.style.height = "4px";
+        this.connector.style.transform = `rotate(${angle}deg)`;
+        this.connector.style.transformOrigin = `0% 50%`;
+        this.connector.style.left = `${startX}px`;
+        this.connector.style.top = `${startY}px`;
     }
 
     /**
@@ -475,22 +516,16 @@ export class DragJoiner {
 
         const startX = this.connector.startX;
         const startY = this.connector.startY;
-
+        
         const width = x - startX;
         const height = y - startY;
-
-        // Calculate the angle for rotating the connector
+        
         const angle = Math.atan2(height, width) * 180 / Math.PI;
 
-        // Update connector's width and rotation angle
         this.connector.style.width = `${Math.abs(width)}px`;
-        this.connector.style.height = "4px"; // Keep height constant
-
-        // Apply rotation and transformation origin
+        this.connector.style.height = "4px";
         this.connector.style.transform = `rotate(${angle}deg)`;
         this.connector.style.transformOrigin = `0% 50%`;
-
-        // Adjust the connector's position to stay anchored at the start point
         this.connector.style.left = `${startX}px`;
         this.connector.style.top = `${startY}px`;
     }
@@ -498,10 +533,12 @@ export class DragJoiner {
     /**
      * Finalize the connection when the mouse is released.
      */
-    finalizeConnector() {
-        const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
+    finalizeConnector(event) {
+        const posX = event.changedTouches ? event.changedTouches[0].clientX : event.clientX;
+        const posY = event.changedTouches ? event.changedTouches[0].clientY : event.clientY;
+        
+        const dropTarget = document.elementFromPoint(posX, posY);
 
-        // Exit early if the drop target is not a category item or if it's the same as the start item
         if (!dropTarget || !this.isItemInCategories(dropTarget) || dropTarget === this.startItem.element) {
             this.connectorsContainer.removeChild(this.connector);
             this.connector = null;
@@ -509,39 +546,16 @@ export class DragJoiner {
             return;
         }
 
-        const startItemName = this.startItem.name;
-        const dropTargetName = dropTarget.dataset.name;
+        const dropTargetItem = this.categories.flatMap(category => category.items).find(item => item.element === dropTarget);
 
-        // Remove any existing relations involving the start or drop target items
-        Object.keys(this.relations).forEach(key => {
-            const relation = this.relations[key];
-            if (relation.start.name === startItemName || relation.target.name === startItemName ||
-                relation.start.name === dropTargetName || relation.target.name === dropTargetName) {
-                this.removeConnectorAndRelation(relation.connector.id);
-            }
-        });
-
-        // Store the new relation
         this.relations[this.connectorIdCounter] = {
             connector: this.connector,
             start: this.startItem,
-            target: this.categories.flatMap(category => category.items).find(item => item.element === dropTarget),
+            target: dropTargetItem
         };
-        // console.log(this.relations[this.connectorIdCounter]);
-
-        // Ensure the target has a unique value or overwrite
-        Object.keys(this.relations).forEach(key => {
-            const relation = this.relations[key];
-            if (relation.target.name === dropTargetName && key !== this.connectorIdCounter.toString()) {
-                this.removeConnectorAndRelation(relation.connector.id);
-            }
-        });
-
-        // Trigger onChange callback if defined
-        if (this.onChange) {
-            this.onChange(this.relations);
-        }
-
+        
+        this.updateConnectorPositionForLoadedState(this.connector, this.startItem.element, dropTargetItem.element);
+        
         this.connector = null;
         this.startItem = null;
     }

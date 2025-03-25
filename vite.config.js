@@ -67,10 +67,15 @@ export default defineConfig({
 
         //IAS es
 
-        iasecundaria7Es: resolve(root, 'IAS_es_07_01/index.html'),
+        iasecundaria7ES: resolve(root, 'IAS_es_07_01/index.html'),
 
         // IAP en
-        iaprimariaEN: resolve(root, 'IAP_en_02_02/index.html'),
+        iaprimaria2EN: resolve(root, 'IAP_en_02_02/index.html'),
+        iaprimaria4EN: resolve(root, 'IAP_en_04_01/index.html'),
+
+        //IAS en
+        iasecundaria7EN: resolve(root, 'IAS_en_07_01/index.html'),
+
       },
     },
   },

@@ -15,7 +15,7 @@
         .container {
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             column-gap: 30px;
             text-align: center;
         }
@@ -52,12 +52,11 @@
         }
 
         .item {
-            background-color: #ccc;
-            padding: 10px;
+            /* background-color: #ccc; */
             border-radius: 10px;
             margin: 10px auto;
-            width: 250px;
-            height: 50px;
+            width: 200px;
+            /* height: 200px; */
             text-align: center;
             font-weight: bold;
             display: flex;
@@ -65,14 +64,32 @@
             justify-content: center;
         }
 
+        .item img{
+            width: 100%;
+        }
+
         .drop-box {
-            border: 2px dashed black;
+            /* border: 2px dashed black; */
             border-radius: 10px;
             margin: 10px;
-            min-height: 100px;
+            height: 300px;
             display: grid;
-            grid-template-rows: auto auto;
+            grid-template-rows: auto auto auto;
             justify-content: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #drop-box-1{
+            background-image: url("/miscelaneas/assets/plasticos-8bd61beb.png");
+        }
+
+        #drop-box-2{
+            background-image: url("/miscelaneas/assets/papeles-52f6cc7a.png");
+        }
+
+        #drop-box-3{
+            background-image: url("/miscelaneas/assets/organicos-30d14dba.png");
         }
 
         .buttons{
@@ -80,7 +97,6 @@
             grid-template-columns: auto auto;
             gap: 10px;
             justify-content: center;
-            margin-top: 20px;
         }
 
 
@@ -109,7 +125,7 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/miscelaneas/assets/iasecundaria7ES-5af49b36.js"></script>
+  <script type="module" crossorigin src="/miscelaneas/assets/iaprimaria4EN-003856ce.js"></script>
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
   <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5c13b114.js">
@@ -117,8 +133,6 @@
 
 <body>
     <div class="container">
-        <div class="text-box pink">Reglas explícitas</div>
-        <div class="text-box yellow">Inteligencia artifical</div>
         <div class="drop-zone">
             
             <div class="drop-box" id="drop-box-1">
@@ -130,29 +144,34 @@
                 <!-- <img src="images/pc.png" alt="PC Image 2" id="c2"> -->
             </div>
         </div>
+        <div class="drop-zone">
+            <div class="drop-box" id="drop-box-3">
+                <!-- <img src="images/pc.png" alt="PC Image 3" id="c3"> -->
+            </div>
+        </div>
+        <!-- <div class="text-box pink"></div>
+        <div class="text-box yellow"></div>
+        <div class="text-box green"></div> -->
     </div>
 
     <div class="options">
-        <div class="item" id="item-1">Semáforo 🚦</div>
-        <div class="item" id="item-2">Recomendaciones de YouTube 📺</div>
-        <div class="item" id="item-3">Calcular el promedio de notas 📝</div>
-        <div class="item" id="item-4">Reconocimiento de rostros 😊</div>
-        <div class="item" id="item-5">Encender una luz con un interruptor 💡</div>
-        <div class="item" id="item-6">Controlar la temperatura de un horno automático 🍳</div>
-        <div class="item" id="item-7">Detectar fraude en transacciones bancarias 💳</div>
-        <div class="item" id="item-8">Seleccionar canciones según tu estado de ánimo 🎵</div>
-        <div class="item" id="item-9">Configurar un temporizador para regar el jardín 🌱</div>
-        <div class="item" id="item-10">Diagnosticar enfermedades basadas en radiografías 🩻</div>
-        <!-- <div class="item" id="item-11">Activar la alarma a una hora específica ⏰</div>
-        <div class="item" id="item-12">Identificar objetos en una fotografía 📸</div>
-        <div class="item" id="item-13">Calcular el área de un triángulo 🟦</div>
-        <div class="item" id="item-14">Sugerir películas basadas en tus preferencias 🍿</div>
-        <div class="item" id="item-15">Ordenar correos electrónicos como spam o no-spam 📬</div> -->
+            <img src="/miscelaneas/assets/organicos 11-1834dcb9.jpg" alt="" class="item" id="item-1">
+
+            <img src="/miscelaneas/assets/papel 11-f193d46e.jpg" alt="" class="item" id="item-2">
+
+            <img src="/miscelaneas/assets/plastico 13-2de114f3.jpeg" alt="" class="item" id="item-3">
+
+            <img src="/miscelaneas/assets/organicos 12-adaf643d.jpg" alt="" class="item" id="item-4">
+
+            <img src="/miscelaneas/assets/papel 14-b5379b59.jpeg" alt="" class="item" id="item-5">
+
+            <img src="/miscelaneas/assets/papel 13-ea56050b.jpg" alt="" class="item" id="item-6">
+
     </div>
 
     <div class="buttons">
-        <button class="validate-button" id="executeButton">Guardar y comprobar</button>
-        <button class="reset-button">Reiniciar</button>
+        <button class="validate-button" id="executeButton">Save and check</button>
+        <button class="reset-button">Reset</button>
     </div>
 </body>
 

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>Multi-ejemplo: Detecta el Error de Diseño</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Montserrat", sans-serif;}
+    button { background-color: #000000; color: #F3C414; }
+    body { background: #f0f0f0; font-family: "Montserrat", sans-serif; }
+    .game-container {
+      background: #F3C414;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 { margin-bottom: 15px; }
+    #example-description {
+      margin: 10px 0;
+      text-align: center;
+    }
+    #example-interface {
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #ccc;
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    #drop-zone {
+      width: 90%;
+      max-width: 500px;
+      min-height: 80px;
+      border: 2px dashed #000000;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.6);
+      padding: 10px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    #drop-zone h2 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    #bank-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 15px;
+    }
+    .draggable {
+      background: #a9914f;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      min-width: 80px;
+      position: relative;
+      margin: 10px;
+    }
+    .buttons-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      
+    }
+    .icon {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      font-size: 18px;
+    }
+    .icon.correct { color: green; }
+    .icon.incorrect { color: red; }
+    #verification-message {
+      font-size: 18px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    #next-example, #play-again {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #8fbc8f;
+      color: #fff;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .modal-content p {
+      margin-bottom: 20px;
+    }
+    .modal-content button {
+      padding: 8px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #8fbc8f;
+      color: #fff;
+    }
+  </style>
+  <script type="module" crossorigin src="/miscelaneas/assets/kof2c101-497a01f6.js"></script>
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/modulepreload-polyfill-ec808ebb.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/pg-event-f7ab3da9.js">
+  <link rel="modulepreload" crossorigin href="/miscelaneas/assets/drag-5c13b114.js">
+</head>
+<body>
+  <div class="game-container">
+    <div class="buttons-row" style="display: flex;justify-content: space-between; width: 100%;">
+    <button id="hint-button">Pista</button>
+    <h1>Detecta el Error de Diseño</h1>
+    <button id="instructions-button">Instrucciones</button>
+  </div>
+    <p id="example-description"></p>
+    <div id="example-interface"></div>
+    <div id="drop-zone">
+      <h2 style="text-align: center;">Errores Detectados</h2>
+    </div>
+    <div id="bank-container"></div>
+    <div class="buttons-row">
+      <button id="verify-button">Guardar y verificar</button>
+      <button id="reset-button">Reiniciar</button>
+    </div>
+
+    <div id="verification-message"></div>
+  </div>
+
+  <div id="hint-modal" class="modal">
+    <div class="modal-content">
+      <p id="hint-text"></p>
+      <button id="hint-ok-button">Okay</button>
+    </div>
+  </div>
+
+  <div id="instructions-modal" class="modal">
+    <div class="modal-content">
+      <p id="instructions-text" style="line-height: 22px;">
+        En esta actividad, deberás detectar los distintos errores de diseño según cada caso y clasificar cada error con los conceptos vistos en clase.
+      <br>
+      Una vez que detectes el error, deberás arrastrar la tarjeta con el nombre del aspecto que hace fallar el diseño hacia la caja de "Errores detectados"
+    <br>
+    Para verificar, presionás el botón de "Guardar y verificar" y te irá guiando por las respuestas que hayas hecho correctas e incorrectas.
+  <br>
+  Si lo deseás, podés presionar los botones de arriba de "Pista" para obtener una pista y el de "Instrucciones" para volver a leer la consigna.
+  <br>
+      ¡Buena suerte!
+      </p>
+      <button id="instructions-ok-button">Okay</button>
+    </div>
+  </div>
+
+  
+</body>
+</html>

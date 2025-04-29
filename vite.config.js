@@ -76,6 +76,9 @@ export default defineConfig({
         //IAS en
         iasecundaria7EN: resolve(root, 'IAS_en_07_01/index.html'),
 
+        //KOF2ES
+        kof2c101: resolve(root, 'KOF2_C1_01/index.html'),
+
       },
     },
   },

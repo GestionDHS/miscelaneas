@@ -149,7 +149,12 @@
             padding: 10px;
         }
 
-        
+        .base-options,
+        .category .objects,
+        .image-container {
+        touch-action: none;   /* evita scroll/zoom durante el drag */
+        user-select: none;    /* evita que se seleccione texto */
+        }
     </style>
 </head>
 

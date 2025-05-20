@@ -65,48 +65,48 @@ export class DragDivider {
      * Initializes the items in the base container to be draggable.
      */
     initDraggableItems() {
-        this.base.items.forEach(item => {
-            if (!item.element) {
-                console.error("Invalid item element", item);
-                return;
+        this.base.items.forEach(({ element }) => {
+            if (!element) {
+            console.error("Invalid item element");
+            return;
             }
 
-            item.element.setAttribute("draggable", true);
-            item.element.classList.add("item");
+            // 1⃣  Quitamos la API Drag & Drop clásica
+            // element.setAttribute("draggable", true);   // ← ya no hace falta
 
-            item.element.addEventListener("dragstart", (event) => {
-                event.dataTransfer.setData("text/plain", item.element.id);
+            // 2⃣  Estética
+            element.classList.add("item");
+            element.style.cursor = "grab";
+
+            // 3⃣  Un solo listener para mouse + touch + pen
+            element.addEventListener("pointerdown", (ev) => this.startDrag(ev, element), {
+            passive: false   // evita que iOS intercepte el gesto
             });
-
-            // Touch event handlers for tablets
-            item.element.addEventListener("touchstart", (event) => this.handleTouchStart(event, item.element));
-            item.element.addEventListener("touchmove", (event) => this.handleTouchMove(event));
-            item.element.addEventListener("touchend", (event) => this.handleTouchEnd(event));
         });
     }
 
-    /**
-     * Configures the categories for dropping items.
-     */
+
+
+    /* ------------ 1. Categorías (zonas destino) ------------ */
     initCategories() {
-        this.categories.forEach(category => {
-            if (!category.element) {
-                console.error("Invalid category element", category);
-                return;
-            }
-
-            category.element.addEventListener("dragover", (event) => event.preventDefault());
-            category.element.addEventListener("drop", (event) => this.handleDrop(event, category));
-        });
+    this.categories.forEach(cat => {
+        if (!cat.element) {
+        console.error("Invalid category element", cat);
+        }
+        // No es necesario agregar listeners aquí:
+        // startDrag() se encarga de mover y endDrag() decide dónde soltar.
+    });
     }
 
-    /**
-     * Configures the base container for returning items.
-     */
+    /* ------------ 2. Contenedor base ------------ */
     initBase() {
-        this.base.element.addEventListener("dragover", (event) => event.preventDefault());
-        this.base.element.addEventListener("drop", (event) => this.handleDrop(event, this.base));
+    if (!this.base.element) {
+        console.error("Invalid base element");
     }
+    // Tampoco hay listeners: el drop se resuelve en endDrag().
+    }
+
+
 
     /**
      * Handles drop events.
@@ -121,54 +121,135 @@ export class DragDivider {
         }
     }
 
-    /**
-     * Handles touch start events.
-     */
-    handleTouchStart(event, element) {
-        this.draggedItem = element;
-        this.draggedItem.style.opacity = "0.5";
-        const touch = event.touches[0];
-        this.draggedItem.startX = touch.clientX;
-        this.draggedItem.startY = touch.clientY;
+
+    /* ---------- 1. startDrag (añade los listeners dinámicamente) ---------- */
+    startDrag(ev, element) {
+    ev.preventDefault();
+
+    this.draggedItem = element;
+    this.pointerId   = ev.pointerId;
+    element.setPointerCapture(this.pointerId);
+
+    /* offset para que el puntero no “salte” */
+    const rect = element.getBoundingClientRect();
+    this.offsetX = ev.clientX - rect.left;
+    this.offsetY = ev.clientY - rect.top;
+
+    Object.assign(element.style, {
+        position: "absolute",
+        zIndex:   9999,
+        left:     `${ev.clientX - this.offsetX}px`,
+        top:      `${ev.clientY - this.offsetY}px`,
+    });
+
+    /* ➊  escuchar mientras dure el drag */
+    element.addEventListener("pointermove", this.moveDrag,  { passive:false });
+    element.addEventListener("pointerup",   this.endDrag,   { passive:false });
+    element.addEventListener("pointercancel",this.endDrag,  { passive:false });
     }
 
-    /**
-     * Handles touch move events.
-     */
-    handleTouchMove(event) {
-        event.preventDefault();
-        const touch = event.touches[0];
-        this.draggedItem.style.position = "absolute";
-        this.draggedItem.style.left = `${touch.clientX}px`;
-        this.draggedItem.style.top = `${touch.clientY}px`;
-    }
+    /* ---------- 2. moveDrag (sin cambios) ---------- */
+    moveDrag = (ev) => {
+    if (!this.draggedItem || ev.pointerId !== this.pointerId) return;
+    this.draggedItem.style.left = `${ev.clientX - this.offsetX}px`;
+    this.draggedItem.style.top  = `${ev.clientY - this.offsetY}px`;
+    };
 
-    /**
-     * Handles touch end events.
-     */
-    handleTouchEnd(event) {
-        const touch = event.changedTouches[0];
-        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+    /* ---------- 3. endDrag (decide dónde soltar y limpia) ---------- */
+    endDrag = (ev) => {
+    if (!this.draggedItem || ev.pointerId !== this.pointerId) return;
+
+    /* -- DEBUG -- */
+    // console.groupCollapsed("DEBUG drop");
+    // console.log("puntero X/Y:", ev.clientX, ev.clientY);
+
+    this.draggedItem.hidden = true;
+    const under = document.elementFromPoint(ev.clientX, ev.clientY);
+    this.draggedItem.hidden = false;
+    // console.log("under node:", under);
+    console.groupEnd();
+    /* -- /DEBUG -- */
+
+    /* ➋  Bounding-box detection */
+    const catMatch = this.categories.find(cat => {
+        const r = cat.element.getBoundingClientRect();
+        return (
+        ev.clientX >= r.left  &&
+        ev.clientX <= r.right &&
+        ev.clientY >= r.top   &&
+        ev.clientY <= r.bottom
+        );
+    });
+
+    /* ➌  Si no es categoría válida, vuelve a la base */
+    (catMatch ? catMatch.element : this.base.element).appendChild(this.draggedItem);
+
+    /* ➍  Limpieza de estilos */
+    Object.assign(this.draggedItem.style, { position:"", zIndex:"", left:"", top:"" });
+    this.draggedItem.releasePointerCapture(this.pointerId);
+
+    /* ➎  Listeners dinámicos fuera */
+    this.draggedItem.removeEventListener("pointermove", this.moveDrag);
+    this.draggedItem.removeEventListener("pointerup",   this.endDrag);
+    this.draggedItem.removeEventListener("pointercancel", this.endDrag);
+
+    this.draggedItem = null;
+    this.pointerId   = null;
+    this.updateState();
+    };
+
+
+
+
+
+    // /**
+    //  * Handles touch start events.
+    //  */
+    // handleTouchStart(event, element) {
+    //     this.draggedItem = element;
+    //     this.draggedItem.style.opacity = "0.5";
+    //     const touch = event.touches[0];
+    //     this.draggedItem.startX = touch.clientX;
+    //     this.draggedItem.startY = touch.clientY;
+    // }
+
+    // /**
+    //  * Handles touch move events.
+    //  */
+    // handleTouchMove(event) {
+    //     event.preventDefault();
+    //     const touch = event.touches[0];
+    //     this.draggedItem.style.position = "absolute";
+    //     this.draggedItem.style.left = `${touch.clientX}px`;
+    //     this.draggedItem.style.top = `${touch.clientY}px`;
+    // }
+
+    // /**
+    //  * Handles touch end events.
+    //  */
+    // handleTouchEnd(event) {
+    //     const touch = event.changedTouches[0];
+    //     const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
         
-        if (dropTarget) {
-            let validCategory = this.categories.find(category => 
-                category.element === dropTarget || dropTarget.closest(`[id='${category.element.id}']`)
+    //     if (dropTarget) {
+    //         let validCategory = this.categories.find(category => 
+    //             category.element === dropTarget || dropTarget.closest(`[id='${category.element.id}']`)
                 
-            );
-            // console.log(validCategory);
+    //         );
+    //         // console.log(validCategory);
             
-            if (validCategory) {
-                validCategory.element.appendChild(this.draggedItem);
-            } else {
-                this.base.element.appendChild(this.draggedItem);
-            }
-        }
+    //         if (validCategory) {
+    //             validCategory.element.appendChild(this.draggedItem);
+    //         } else {
+    //             this.base.element.appendChild(this.draggedItem);
+    //         }
+    //     }
         
-        this.draggedItem.style.opacity = "1";
-        this.draggedItem.style.position = "static";
-        this.draggedItem = null;
-        this.updateState();
-    }
+    //     this.draggedItem.style.opacity = "1";
+    //     this.draggedItem.style.position = "static";
+    //     this.draggedItem = null;
+    //     this.updateState();
+    // }
 
     /**
      * Validates the placement of items in categories.

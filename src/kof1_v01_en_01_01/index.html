@@ -2,284 +2,254 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technological Objects</title>
-
-    <!-- 
-      =========================================================
-      1️⃣  ESTILOS
-      =========================================================
-      • 100 % responsive con CSS Grid & Flexbox.
-      • Soporta pantallas táctiles (touch-action: none -> Pointer Events).
-    -->
     <style>
-        *,
-        *::before,
-        *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
+            background: #f0f0f0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #222;
         }
 
-        /* ——— CONTENEDOR PRINCIPAL ——— */
         .game-container {
-            min-height: 100svh; /* viewport adaptable a dispositivos móviles */
+            background: linear-gradient(135deg, #e6e6fa, #b19cd9);
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
-            padding: clamp(0.5rem, 4vw, 2rem);
-            background: linear-gradient(135deg, #e6e6fa 0%, #b19cd9 100%);
+            height: 100vh;
+            justify-content: center;
         }
 
-        /* ——— CABECERA ——— */
+        
+
         .header {
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .title {
-            font-size: clamp(1.25rem, 5vw, 1.75rem);
+            font-size: 24px;
             color: #4a4a8a;
-            margin-bottom: 0.25rem;
+            margin-bottom: 10px;
         }
 
         .subtitle {
-            font-size: clamp(0.875rem, 4vw, 1rem);
             color: #666;
+            font-size: 16px;
         }
 
-        /* ——— ZONAS DE SOLTAR ——— */
+        .buttons{
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .validate-button, .reset-button {
+            display: block;
+            width: fit-content;
+            background-color: #f1ebb3  ;
+            /* color: white; */
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+        }
+
         .drop-zones {
             display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .drop-zone {
+            min-height: 150px;
+            /* Ajustar la altura automáticamente */
+            background: rgba(255, 255, 255, 0.457);
+            border-radius: 10px;
+            padding: 20px;
             display: flex;
+            margin: 10px;
+            /* Usar flexbox para alinear elementos horizontalmente */
             flex-wrap: wrap;
-            gap: 0.5rem;
-            padding: 1rem;
-            min-height: 9rem;
-            background: rgba(255, 255, 255, 0.75);
-            border-radius: 0.75rem;
-            touch-action: none; /* necesario para Pointer Events en iOS */
+            /* Permitir que los elementos se envuelvan */
+            gap: 10px;
+            /* Espacio entre los elementos */
         }
 
         .drop-zone-title {
-            width: 100%;
+            font-size: 24px;
             text-align: center;
-            font-size: 1.25rem;
-            font-weight: bold;
+            width: 100%;
+            /* Asegurar que el título ocupe todo el ancho */
         }
 
-        /* ——— OBJETOS DRAGGABLES ——— */
         .objects-container {
+            justify-content: space-evenly;
             display: grid;
-            gap: 0.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
-            justify-items: center;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            /* Aumentar el espacio entre las opciones */
+            padding: 10px;
             width: 100%;
         }
 
         .object {
-            width: 4.5rem;
-            height: 4.5rem;
-            border-radius: 0.5rem;
+            height: 130px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: #fff;
+            margin: 5px;
+            text-align: center;
             user-select: none;
-            cursor: grab;
-            touch-action: none; /* evita scrolling durante el drag */
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            transition: transform 0.15s;
-        }
-
-        .object:active {
-            cursor: grabbing;
-            transform: scale(0.9);
+            cursor: pointer;
+            font-size: 12px;
+            /* Ajustar el tamaño de la fuente */
+            padding: 5px;
+            /* Agregar padding para evitar que el texto se corte */
         }
 
         .object img {
-            width: 100%;
-            height: 100%;
             object-fit: contain;
+            width: 100%;
         }
 
-        /* ——— BOTONES ——— */
-        .buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            justify-content: center;
-        }
-
-        .btn {
-            font-size: 1.125rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 0.625rem;
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            background-color: #f1ebb3;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #e9e28c;
-        }
-
-        /* ——— MEDIA QUERIES PARA PANTALLAS GRANDES ——— */
-        @media (min-width: 48rem) {
-            .objects-container {
-                grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
-            }
-
-            .object {
-                width: 5.5rem;
-                height: 5.5rem;
-            }
-        }
     </style>
 </head>
 
 <body>
     <div class="game-container">
-        <header class="header">
-            <h1 class="title">Technological Objects</h1>
-            <p class="subtitle">Drag each object to the correct category or tap to select and drop.</p>
-        </header>
 
-        <section class="drop-zones">
+        <div class="drop-zones">
             <div class="drop-zone" id="tecnologico">
                 <h2 class="drop-zone-title">Technological objects</h2>
             </div>
             <div class="drop-zone" id="no-tecnologico">
                 <h2 class="drop-zone-title">Non-technological objects</h2>
             </div>
-        </section>
+        </div>
 
-        <section class="objects-container">
-            <!-- Las imágenes de ejemplo -->
-            <div class="object" id="object-1"><img src="images/patata.png" alt="Patata" title="Rock" /></div>
-            <div class="object" id="object-2"><img src="images/calculadora.png" alt="Calculadora" title="Calculator" /></div>
-            <div class="object" id="object-3"><img src="images/camara.png" alt="Cámara" title="Camera" /></div>
-            <div class="object" id="object-4"><img src="images/reloj_inteligente.png" alt="Reloj Inteligente" title="Smartwatch" /></div>
-            <div class="object" id="object-5"><img src="images/tomates.png" alt="Tomates" title="Tomatoes" /></div>
-            <div class="object" id="object-6"><img src="images/auriculares.png" alt="Auriculares" title="Headphones" /></div>
-            <div class="object" id="object-7"><img src="images/portatil.png" alt="Portátil" title="Laptop" /></div>
-            <div class="object" id="object-8"><img src="images/vaca.png" alt="Vaca" title="Cow" /></div>
-        </section>
+        <div class="objects-container">
+            <div class="object" id="object-1">
+                <img src="images/patata.png" alt="Patata" width="80" height="80" title="Rock">
+            </div>
+            <div class="object" id="object-2">
+                <img src="images/calculadora.png" alt="Calculadora" width="80" height="80" title="Calculator">
+            </div>
+            <div class="object" id="object-3">
+                <img src="images/camara.png" alt="Cámara" width="80" height="80" title="Camera">
+            </div>
+            <div class="object" id="object-4">
+                <img src="images/reloj_inteligente.png" alt="Reloj Inteligente" width="80" height="80" title="Smartwatch">
+            </div>
+            <div class="object" id="object-5">
+                <img src="images/tomates.png" alt="Tomates" width="80" height="80" title="Tomatoes">
+            </div>
+            <div class="object" id="object-6">
+                <img src="images/auriculares.png" alt="Auriculares" width="80" height="80" title="Headphones">
+            </div>
+            <div class="object" id="object-7">
+                <img src="images/portatil.png" alt="Portátil" width="80" height="80" title="Laptop">
+            </div>
+            <div class="object" id="object-8">
+                <img src="images/vaca.png" alt="Pluma" width="80" height="80" title="Cow">
+            </div>
+        </div>
 
         <div class="buttons">
-            <button class="btn validate-button">Save and check</button>
-            <button class="btn reset-button">Reset</button>
+            <button class="validate-button">Save and check</button>
+            <button class="reset-button">Reset</button>
+
         </div>
+
     </div>
-
-    <!--
-      =========================================================
-      2️⃣  LÓGICA (ES6 módulo)
-      =========================================================
-      Se incluye soporte para Pointer Events + fallback por clics.
-    -->
-    <script type="module">
-        import { DragDivider } from "../shared/drag.js";
-        import { PGEvent } from "../shared/pg-event.js";
-
-        const pgEvent = new PGEvent();
-        window.onload = () => {
-            pgEvent.getValues();
-
-            /* ——— IMPLEMENTACIÓN PRINCIPAL ——— */
-            const dragDivider = new DragDivider({
-                base: {
-                    element: document.querySelector(".objects-container"),
-                    items: [
-                        { element: object(1), expectedCategory: "no-tecnologico" },
-                        { element: object(2), expectedCategory: "tecnologico" },
-                        { element: object(3), expectedCategory: "tecnologico" },
-                        { element: object(4), expectedCategory: "tecnologico" },
-                        { element: object(5), expectedCategory: "no-tecnologico" },
-                        { element: object(6), expectedCategory: "tecnologico" },
-                        { element: object(7), expectedCategory: "tecnologico" },
-                        { element: object(8), expectedCategory: "no-tecnologico" }
-                    ]
-                },
-                categories: [
-                    { name: "tecnologico", element: zone("tecnologico") },
-                    { name: "no-tecnologico", element: zone("no-tecnologico") }
-                ],
-                verifyButton: document.querySelector(".validate-button"),
-                messages: {
-                    onSuccess: "All items are correctly placed.",
-                    onFail: "Some items are incorrectly placed.",
-                    onReset: "Activity reset successfully."
-                }
-            });
-
-            /* ——— Fallback TAP‑to‑MOVE (útil en iPadOS < 13) ——— */
-            addTapFallback();
-
-            /* ——— Restaurar estado si existe ——— */
-            window.addEventListener("message", (ev) => {
-                const savedState = JSON.parse(ev.data?.data || null);
-                if (savedState?.base) dragDivider.loadState(savedState);
-            });
-        };
-
-        /* 🔧 Utils cortos para no repetir document.getElementById */
-        const object = (n) => document.getElementById(`object-${n}`);
-        const zone = (id) => document.getElementById(id);
-
-        /*
-          =========================================================
-          Fallback por clics (tap‑to‑move):
-          =========================================================
-          • Si un dispositivo no soporta arrastrar, el alumno toca un objeto 🠖 se resalta.
-          • Luego toca una zona 🠖 el objeto se mueve ahí.
-        */
-        function addTapFallback() {
-            let selected = null;
-            const objects = document.querySelectorAll(".object");
-            const zones = document.querySelectorAll(".drop-zone, .objects-container");
-
-            objects.forEach((el) => {
-                el.addEventListener("click", () => {
-                    if (selected) selected.classList.remove("selected");
-                    selected = el;
-                    el.classList.add("selected");
-                });
-            });
-
-            zones.forEach((zone) => {
-                zone.addEventListener("click", () => {
-                    if (selected && zone !== selected.parentElement) {
-                        zone.appendChild(selected);
-                        selected.classList.remove("selected");
-                        selected = null;
-                    }
-                });
-            });
-        }
-    </script>
-
-    <style>
-        /*  \o/  Estilos visuales para el fallback de selección  */
-        .object.selected {
-            outline: 3px solid #4a4a8a;
-            outline-offset: 2px;
-        }
-    </style>
 </body>
+
+<!-- <script src="../shared/drag.js" type="module"></script> -->
+<script type="module" defer>
+    import { DragDivider } from "../shared/drag.js"
+    import { PGEvent } from "../shared/pg-event.js"
+    const pgEvent = new PGEvent();
+    window.onload = () => {
+        pgEvent.getValues();
+
+        const dragDivider = new DragDivider({
+            base: {
+                element: document.querySelector(".objects-container"),
+                items: [
+                    {
+                        element: document.getElementById("object-1"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-2"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-3"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-4"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-5"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-6"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-7"),
+                        expectedCategory: "tecnologico",
+                    },
+                    {
+                        element: document.getElementById("object-8"),
+                        expectedCategory: "no-tecnologico",
+                    },
+                ],
+            },
+            categories: [
+                {
+                    name: "tecnologico",
+                    element: document.getElementById("tecnologico"),
+                },
+                {
+                    name: "no-tecnologico",
+                    element: document.getElementById("no-tecnologico"),
+                }
+            ],
+            verifyButton: document.querySelector(".validate-button"),
+            messages: {
+                onSuccess: "All items are correctly placed.",
+                onFail: "Some items are incorrectly placed.",
+                onReset: "Activity reset successfully."
+            }
+        });
+
+        // Listener para el mensaje del estado guardado
+        window.addEventListener('message', function (event) {
+            const savedState = JSON.parse(event.data?.data);
+            
+            if (savedState?.base) {
+                dragDivider.loadState(savedState);
+            } else {
+                console.log("No saved state found. Starting with default configuration.");
+            }
+        });
+    };
+
+</script>
 
 </html>
